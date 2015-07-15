@@ -1,0 +1,414 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{cf348141-5769-4f0a-ba36-aa252dd74441}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{6c903c6d-6df2-4d32-b3f4-c82aa68a1ead}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Header Files\opengl_utils">
+      <UniqueIdentifier>{adc3bc60-a228-4c0f-a100-6a160dad212c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\opengl_utils">
+      <UniqueIdentifier>{7c5f4b46-081d-4f07-b615-6a22b82b4029}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rift_utils">
+      <UniqueIdentifier>{28db5777-2e98-41de-ab28-498d1d738f54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rift_utils">
+      <UniqueIdentifier>{985d4145-2f0e-4cf4-be8e-bbbd225eabef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cmdline_utils">
+      <UniqueIdentifier>{e46f02df-c7e3-47d9-9009-a259645e9838}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cmdline_utils">
+      <UniqueIdentifier>{4a020c6c-7696-4fb6-b62b-4ddae506016d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\image_utils">
+      <UniqueIdentifier>{89c72e3c-1c28-4d2e-b8c5-ccf3a9e81ebb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\image_utils">
+      <UniqueIdentifier>{c9138a3e-061f-4081-bd32-13f33d907db8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\webcam_utils">
+      <UniqueIdentifier>{aa4452a1-a8f6-40f6-8c32-3e195ec8378d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\webcam_utils">
+      <UniqueIdentifier>{80e6fd83-3b4c-4908-90ef-3f9389982d47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\videostream_utils">
+      <UniqueIdentifier>{542ab6e6-e1b3-4206-85bc-9f4ef7603f7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\videostream_utils">
+      <UniqueIdentifier>{26f1da11-1670-47d6-b563-9ea51c0dc7ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\misc_utils">
+      <UniqueIdentifier>{9a645d2f-deae-4f0f-bafc-52bee1a63979}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\misc_utils">
+      <UniqueIdentifier>{b1b5f256-e96b-463c-8206-a595b91d67bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\network_utils">
+      <UniqueIdentifier>{7eae6f28-1588-4424-a288-d205d613df17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\network_utils">
+      <UniqueIdentifier>{2ed45ad8-70c1-4ce7-adf0-21a38dd3329d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GeneratedFiles\Debug\moc_opengl_app.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_opengl_app.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="opengl_utils.cpp">
+      <Filter>Source Files\opengl_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="opengl_app.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_rift_app.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_rift_app.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="rift_app.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="texcube_app.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_texcube_app.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_texcube_app.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_colorcube_app.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_colorcube_app.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="colorcube_app.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="app_environment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_app_environment.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_app_environment.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam_monoapp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_webcam_monoapp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_webcam_monoapp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam_stereoapp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_webcam_stereoapp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="cmdline_parser.cpp">
+      <Filter>Source Files\cmdline_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_webcam_stereoapp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_image_processor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_image_processor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_image_reader.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_image_reader.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_webcam_capture.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_webcam_capture.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_image_handler.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_image_handler.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="image_handler.cpp">
+      <Filter>Source Files\image_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="image_processor.cpp">
+      <Filter>Source Files\image_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="image_reader.cpp">
+      <Filter>Source Files\image_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_webcam_imagereader.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam_capture.cpp">
+      <Filter>Source Files\webcam_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam_imagereader.cpp">
+      <Filter>Source Files\webcam_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_webcam_imagereader.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="image_writer.cpp">
+      <Filter>Source Files\image_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_image_writer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_videostream_app.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_videostream_app.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_videostream_monoapp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_videostream_monoapp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_videostream_stereoapp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="videostream_app.cpp">
+      <Filter>Source Files\videostream_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="videostream_monoapp.cpp">
+      <Filter>Source Files\videostream_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="videostream_stereoapp.cpp">
+      <Filter>Source Files\videostream_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="videostream_serverapp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_videostream_serverapp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="exception.cpp">
+      <Filter>Source Files\misc_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="videostream_clientapp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_videostream_clientapp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_videostream_clientapp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_videostream_serverapp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_image_writer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_videostream_stereoapp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_network_imagewriter_proxy.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_network_imagewriter_proxy.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="network_imagewriter_proxy.cpp">
+      <Filter>Source Files\network_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="network_imagesettings.cpp">
+      <Filter>Source Files\network_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_network_imagewriter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_network_imagewriter.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="network_imagewriter.cpp">
+      <Filter>Source Files\network_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="network_imageheader.cpp">
+      <Filter>Source Files\network_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_network_imagereader.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_network_imagereader.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="network_imagereader.cpp">
+      <Filter>Source Files\network_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="videostream_networkapp.cpp">
+      <Filter>Source Files\videostream_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_videostream_networkapp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_videostream_networkapp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_network_datasender.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_network_datasender.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="network_datasender.cpp">
+      <Filter>Source Files\network_utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="opengl_utils.h">
+      <Filter>Header Files\opengl_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="rift_utils.h">
+      <Filter>Header Files\rift_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="cmdline_options.h">
+      <Filter>Header Files\cmdline_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="cmdline_parser.h">
+      <Filter>Header Files\cmdline_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="image_typedef.h">
+      <Filter>Header Files\image_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="exception.h">
+      <Filter>Header Files\misc_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="scopeguard.h">
+      <Filter>Header Files\misc_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="network_imagesettings.h">
+      <Filter>Header Files\network_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="network_imageheader.h">
+      <Filter>Header Files\network_utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="opengl_app.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rift_app.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="texcube_app.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="colorcube_app.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="app_environment.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="webcam_monoapp.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="webcam_stereoapp.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="image_handler.h">
+      <Filter>Header Files\image_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="image_processor.h">
+      <Filter>Header Files\image_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="image_reader.h">
+      <Filter>Header Files\image_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="webcam_capture.h">
+      <Filter>Header Files\webcam_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="webcam_imagereader.h">
+      <Filter>Header Files\webcam_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="image_writer.h">
+      <Filter>Header Files\image_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="videostream_app.h">
+      <Filter>Header Files\videostream_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="videostream_monoapp.h">
+      <Filter>Header Files\videostream_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="videostream_stereoapp.h">
+      <Filter>Header Files\videostream_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="videostream_serverapp.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="videostream_clientapp.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="network_imagewriter_proxy.h">
+      <Filter>Header Files\network_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="network_imagewriter.h">
+      <Filter>Header Files\network_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="network_imagereader.h">
+      <Filter>Header Files\network_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="videostream_networkapp.h">
+      <Filter>Header Files\videostream_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="network_datasender.h">
+      <Filter>Header Files\network_utils</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>
