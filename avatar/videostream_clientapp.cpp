@@ -3,7 +3,7 @@
 #include "videostream_clientapp.h"
 
 #include "exception.h"
-#include "image_handler.h"
+#include "image_system.h"
 #include "image_processor.h"
 #include "network_imagewriter.h"
 #include "webcam_imagereader.h"
@@ -33,18 +33,18 @@ namespace avatar
 
 		// Setup left eye image handler.
 		//
-		m_imageHandlers[ovrEye_Left] = std::make_unique<ImageHandler>(std::make_unique<WebcamImageReader>(cameras[1]),
+		m_imageHandlers[ovrEye_Left] = std::make_unique<ImageSystem>(std::make_unique<WebcamImageReader>(cameras[1]),
 			                                                          std::make_unique<LeftWebcamImageProcessor>(),
 																	  NetworkImageWriter::create(m_serverAddress, getLeftEyePort()));
-		QObject::connect(m_imageHandlers[ovrEye_Left].get(), &ImageHandler::imageReady, this, &VideoStreamClientApp::setLeftEyeImage);
+		QObject::connect(m_imageHandlers[ovrEye_Left].get(), &ImageSystem::imageReady, this, &VideoStreamClientApp::setLeftEyeImage);
 
 		// Setup right eye image handler.
 		//
 
-		m_imageHandlers[ovrEye_Right] = std::make_unique<ImageHandler>(std::make_unique<WebcamImageReader>(cameras[0]),
+		m_imageHandlers[ovrEye_Right] = std::make_unique<ImageSystem>(std::make_unique<WebcamImageReader>(cameras[0]),
 			                                                           std::make_unique<RightWebcamImageProcessor>(),
 																	   NetworkImageWriter::create(m_serverAddress, getRightEyePort()));
-		QObject::connect(m_imageHandlers[ovrEye_Right].get(), &ImageHandler::imageReady, this, &VideoStreamClientApp::setRightEyeImage);
+		QObject::connect(m_imageHandlers[ovrEye_Right].get(), &ImageSystem::imageReady, this, &VideoStreamClientApp::setRightEyeImage);
 
 		//
 		// Start the handlers' work.

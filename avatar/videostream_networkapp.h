@@ -5,7 +5,7 @@
 namespace avatar
 {
 
-	class ImageHandler;
+	class ImageSystem;
 
 	class VideoStreamNetworkApp : public VideoStreamStereoApp
 	{

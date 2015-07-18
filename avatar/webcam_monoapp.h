@@ -5,7 +5,7 @@
 namespace avatar
 {
 
-	class ImageHandler;
+	class ImageSystem;
 
 	class WebcamMonoApp : public VideoStreamMonoApp
 	{
@@ -22,7 +22,7 @@ namespace avatar
 
 	private:
 
-		std::unique_ptr<ImageHandler> m_imageHandler;
+		std::unique_ptr<ImageSystem> m_imageHandler;
 
 	};
 

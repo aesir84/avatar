@@ -9,16 +9,16 @@ namespace avatar
 	class ImageReader;
 	class ImageWriter;
 
-	class ImageHandler : public QObject
+	class ImageSystem : public QObject
 	{
 
 		Q_OBJECT
 
 	public:
 
-		ImageHandler(std::unique_ptr<ImageReader> && imageReader);
-		ImageHandler(std::unique_ptr<ImageReader> && imageReader, std::unique_ptr<ImageProcessor> && imageProcessor);
-		ImageHandler(std::unique_ptr<ImageReader> && imageReader, std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageWriter> && imageWriter);
+		ImageSystem(std::unique_ptr<ImageReader> && imageReader);
+		ImageSystem(std::unique_ptr<ImageReader> && imageReader, std::unique_ptr<ImageProcessor> && imageProcessor);
+		ImageSystem(std::unique_ptr<ImageReader> && imageReader, std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageWriter> && imageWriter);
 
 	public slots:
 

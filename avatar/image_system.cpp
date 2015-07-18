@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "image_handler.h"
+#include "image_system.h"
 
 #include "image_processor.h"
 #include "image_reader.h"
@@ -9,22 +9,22 @@
 namespace avatar
 {
 
-	ImageHandler::ImageHandler(std::unique_ptr<ImageReader> && imageReader)
+	ImageSystem::ImageSystem(std::unique_ptr<ImageReader> && imageReader)
 		: m_imageReader(std::move(imageReader))
 	{}
 
-	ImageHandler::ImageHandler(std::unique_ptr<ImageReader> && imageReader, std::unique_ptr<ImageProcessor> && imageProcessor)
+	ImageSystem::ImageSystem(std::unique_ptr<ImageReader> && imageReader, std::unique_ptr<ImageProcessor> && imageProcessor)
 		: m_imageReader(std::move(imageReader))
 		, m_imageProcessor(std::move(imageProcessor))
 	{}
 
-	ImageHandler::ImageHandler(std::unique_ptr<ImageReader> && imageReader, std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageWriter> && imageWriter)
+	ImageSystem::ImageSystem(std::unique_ptr<ImageReader> && imageReader, std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageWriter> && imageWriter)
 		: m_imageReader(std::move(imageReader))
 		, m_imageProcessor(std::move(imageProcessor))
 		, m_imageWriter(std::move(imageWriter))
 	{}
 
-	void ImageHandler::startHandling()
+	void ImageSystem::startHandling()
 	{
 		Q_ASSERT(m_imageReader != nullptr);
 
@@ -55,7 +55,7 @@ namespace avatar
 	// TODO: setupWorkingProcess() methods have lots of code duplication. This needs to be refactored.
 	//
 
-	void ImageHandler::setupWorkingProcess(std::unique_ptr<ImageReader> && imageReader) const
+	void ImageSystem::setupWorkingProcess(std::unique_ptr<ImageReader> && imageReader) const
 	{
 
 		//
@@ -74,11 +74,11 @@ namespace avatar
 		// Interconnect the working chain.
 		//
 		QObject::connect(imageReaderThread.get(), &QThread::started, imageReader.get(), &ImageReader::startReading);         // once the thread starts, it will trigger the work of the reader
-		QObject::connect(imageReader.get(), &ImageReader::imageRead, this, &ImageHandler::imageReady);                       // once the reader has an image, it will pass it to the processor
+		QObject::connect(imageReader.get(), &ImageReader::imageRead, this, &ImageSystem::imageReady);                       // once the reader has an image, it will pass it to the processor
 
 		// Interconnect the reader destruction chain.
 		//
-		QObject::connect(this, &ImageHandler::destroyed, imageReader.get(), &ImageReader::deleteLater);
+		QObject::connect(this, &ImageSystem::destroyed, imageReader.get(), &ImageReader::deleteLater);
 
 
 		//
@@ -102,7 +102,7 @@ namespace avatar
 		imageReader.release();
 	}
 
-	void ImageHandler::setupWorkingProcess(std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageReader> && imageReader) const
+	void ImageSystem::setupWorkingProcess(std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageReader> && imageReader) const
 	{
 
 		//
@@ -120,11 +120,11 @@ namespace avatar
 
 		// Interconnect the working chain.
 		//
-		QObject::connect(imageProcessor.get(), &ImageProcessor::imageProcessed, this, &ImageHandler::imageReady);
+		QObject::connect(imageProcessor.get(), &ImageProcessor::imageProcessed, this, &ImageSystem::imageReady);
 
 		// Interconnect the processor's destruction chain.
 		//
-		QObject::connect(this, &ImageHandler::destroyed, imageProcessor.get(), &ImageProcessor::deleteLater);                // once the current object is destroyed, it will tell the worker to be destroyed as well
+		QObject::connect(this, &ImageSystem::destroyed, imageProcessor.get(), &ImageProcessor::deleteLater);                // once the current object is destroyed, it will tell the worker to be destroyed as well
 
 
 		//
@@ -147,7 +147,7 @@ namespace avatar
 
 		// Interconnect the reader destruction chain.
 		//
-		QObject::connect(this, &ImageHandler::destroyed, imageReader.get(), &ImageReader::deleteLater);
+		QObject::connect(this, &ImageSystem::destroyed, imageReader.get(), &ImageReader::deleteLater);
 
 		
 		//
@@ -174,7 +174,7 @@ namespace avatar
 		imageReader.release();
 	}
 
-	void ImageHandler::setupWorkingProcess(std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageWriter> && imageWriter, std::unique_ptr<ImageReader> && imageReader) const
+	void ImageSystem::setupWorkingProcess(std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageWriter> && imageWriter, std::unique_ptr<ImageReader> && imageReader) const
 	{
 
 		//
@@ -192,11 +192,11 @@ namespace avatar
 
 		// Interconnect the working chain.
 		//
-		QObject::connect(imageProcessor.get(), &ImageProcessor::imageProcessed, this, &ImageHandler::imageReady);
+		QObject::connect(imageProcessor.get(), &ImageProcessor::imageProcessed, this, &ImageSystem::imageReady);
 
 		// Interconnect the processor's destruction chain.
 		//
-		QObject::connect(this, &ImageHandler::destroyed, imageProcessor.get(), &ImageProcessor::deleteLater);                // once the current object is destroyed, it will tell the worker to be destroyed as well
+		QObject::connect(this, &ImageSystem::destroyed, imageProcessor.get(), &ImageProcessor::deleteLater);                // once the current object is destroyed, it will tell the worker to be destroyed as well
 
 
 		//
@@ -219,7 +219,7 @@ namespace avatar
 
 		// Interconnect the writer's destruction chain.
 		//
-		QObject::connect(this, &ImageHandler::destroyed, imageWriter.get(), &ImageWriter::deleteLater);                // once the current object is destroyed, it will tell the worker to be destroyed as well
+		QObject::connect(this, &ImageSystem::destroyed, imageWriter.get(), &ImageWriter::deleteLater);                // once the current object is destroyed, it will tell the worker to be destroyed as well
 
 
 		//
@@ -242,7 +242,7 @@ namespace avatar
 
 		// Interconnect the reader destruction chain.
 		//
-		QObject::connect(this, &ImageHandler::destroyed, imageReader.get(), &ImageReader::deleteLater);
+		QObject::connect(this, &ImageSystem::destroyed, imageReader.get(), &ImageReader::deleteLater);
 
 
 		//

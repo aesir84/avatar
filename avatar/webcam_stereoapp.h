@@ -5,7 +5,7 @@
 namespace avatar
 {
 
-	class ImageHandler;
+	class ImageSystem;
 
 	class WebcamStereoApp : public VideoStreamStereoApp
 	{
@@ -23,7 +23,7 @@ namespace avatar
 
 	private:
 
-		std::array<std::unique_ptr<ImageHandler>, ovrEye_Count> m_imageHandlers;
+		std::array<std::unique_ptr<ImageSystem>, ovrEye_Count> m_imageHandlers;
 
 	};
 

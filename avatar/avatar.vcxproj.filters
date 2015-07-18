@@ -172,15 +172,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_webcam_capture.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_image_handler.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_image_handler.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="image_handler.cpp">
-      <Filter>Source Files\image_utils</Filter>
-    </ClCompile>
     <ClCompile Include="image_processor.cpp">
       <Filter>Source Files\image_utils</Filter>
     </ClCompile>
@@ -307,6 +298,15 @@
     <ClCompile Include="network_datasender.cpp">
       <Filter>Source Files\network_utils</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_image_system.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_image_system.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="image_system.cpp">
+      <Filter>Source Files\image_utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -362,9 +362,6 @@
     <CustomBuild Include="webcam_stereoapp.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="image_handler.h">
-      <Filter>Header Files\image_utils</Filter>
-    </CustomBuild>
     <CustomBuild Include="image_processor.h">
       <Filter>Header Files\image_utils</Filter>
     </CustomBuild>
@@ -409,6 +406,9 @@
     </CustomBuild>
     <CustomBuild Include="network_datasender.h">
       <Filter>Header Files\network_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="image_system.h">
+      <Filter>Header Files\image_utils</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
