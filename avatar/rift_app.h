@@ -113,14 +113,7 @@ namespace avatar
 		EyeViewPorts getEyeViewPorts() const;
 		EyeViewOffsets getEyeViewOffsets() const;
 
-		/// \brief A method to get a native handle of the current window
-		///
-		/// The method relies on the on Qt Platform Abstraction classes,
-		/// which are currently (ver. 5.4) under heavy development.
-		/// Therefore, these classes are mostly undocumented right now.
-		/// Beware, that at the current moment this is probably not portable.
-		///
-		HWND getWindow();
+		HWND getWindowHandle();
 
 		bool isOvrHealthAndSafetyWarningDisplayed() const;
 		void dismissOvrHealthAndSafetyWarning();

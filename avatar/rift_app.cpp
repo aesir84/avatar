@@ -71,7 +71,7 @@ namespace avatar
 		auto const leftEyeTextureSize = ovrHmd_GetFovTextureSize(m_hmdDescriptor, ovrEye_Left, defaultLeftEyeFov, defaultPixelDensity);
 		auto const rightEyeTextureSize = ovrHmd_GetFovTextureSize(m_hmdDescriptor, ovrEye_Right, defaultRightEyeFov, defaultPixelDensity);
 
-		ovr::Sizei const fullTextureSize(leftEyeTextureSize.w + rightEyeTextureSize.w, ovr::Alg::Max(leftEyeTextureSize.h, rightEyeTextureSize.h));
+		ovr::Sizei const fullTextureSize(leftEyeTextureSize.w + rightEyeTextureSize.w, std::max(leftEyeTextureSize.h, rightEyeTextureSize.h));
 
 		// Create a frame buffer object using the offscreen rendering texture size.
 		// The frame object also contains a depth buffer.
@@ -112,7 +112,7 @@ namespace avatar
 		header.API = ovrRenderAPI_OpenGL;
 		header.BackBufferSize = ovr::Sizei(m_hmdDescriptor->Resolution.w, m_hmdDescriptor->Resolution.h);
 
-		int const distortionCaps = ovrDistortionCap_Chromatic | ovrDistortionCap_Vignette | ovrDistortionCap_TimeWarp | ovrDistortionCap_Overdrive;
+		int const distortionCaps = ovrDistortionCap_Vignette | ovrDistortionCap_TimeWarp | ovrDistortionCap_Overdrive;
 
 		if (!ovrHmd_ConfigureRendering(m_hmdDescriptor, &config.Config, distortionCaps, m_hmdDescriptor->DefaultEyeFov, m_eyeDescriptors.data()))
 		{
@@ -121,7 +121,7 @@ namespace avatar
 
 		// Finally, attach OVR to the current window.
 		//
-		if (!ovrHmd_AttachToWindow(m_hmdDescriptor, getWindow(), nullptr, nullptr))
+		if (!ovrHmd_AttachToWindow(m_hmdDescriptor, getWindowHandle(), nullptr, nullptr))
 		{
 			throw Exception(error_caption::ovrInit, ovrHmd_GetLastError(m_hmdDescriptor));
 		}
@@ -294,9 +294,9 @@ namespace avatar
 		setGeometry(position.x, position.y, resolution.w, resolution.h);
 	}
 
-	HWND RiftApp::getWindow()
+	HWND RiftApp::getWindowHandle()
 	{
-		return static_cast<HWND>(QGuiApplication::platformNativeInterface()->nativeResourceForWindow(QByteArray("handle"), this));
+		return reinterpret_cast<HWND>(winId());
 	}
 
 	RiftApp::EyeViewPorts RiftApp::getEyeViewPorts() const

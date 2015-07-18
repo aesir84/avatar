@@ -34,20 +34,14 @@ namespace avatar
 
 		// Setup left eye image handler.
 		//
-		auto leftWebcamImageReader = std::make_unique<WebcamImageReader>(cameras[1]);
-		auto leftWebcamImageProcessor = std::make_unique<LeftWebcamImageProcessor>();
-
-		m_imageHandlers[ovrEye_Left] = std::make_unique<ImageHandler>(std::move(leftWebcamImageReader), std::move(leftWebcamImageProcessor));
-
+		m_imageHandlers[ovrEye_Left] = std::make_unique<ImageHandler>(std::make_unique<WebcamImageReader>(cameras[1]),
+			                                                          std::make_unique<LeftWebcamImageProcessor>());
 		QObject::connect(m_imageHandlers[ovrEye_Left].get(), &ImageHandler::imageReady, this, &WebcamStereoApp::setLeftEyeImage);
 
 		// Setup right eye image handler.
 		//
-		auto rightWebcamImageReader = std::make_unique<WebcamImageReader>(cameras[0]);
-		auto rightWebcamImageProcessor = std::make_unique<RightWebcamImageProcessor>();
-
-		m_imageHandlers[ovrEye_Right] = std::make_unique<ImageHandler>(std::move(rightWebcamImageReader), std::move(rightWebcamImageProcessor));
-
+		m_imageHandlers[ovrEye_Right] = std::make_unique<ImageHandler>(std::make_unique<WebcamImageReader>(cameras[0]),
+			                                                           std::make_unique<RightWebcamImageProcessor>());
 		QObject::connect(m_imageHandlers[ovrEye_Right].get(), &ImageHandler::imageReady, this, &WebcamStereoApp::setRightEyeImage);
 
 

@@ -22,18 +22,12 @@ namespace avatar
 
 		// Setup left eye image handler.
 		//
-		auto leftRemoteImageReader = std::make_unique<NetworkImageReader>(getLeftEyePort());
-
-		m_imageHandlers[ovrEye_Left] = std::make_unique<ImageHandler>(std::move(leftRemoteImageReader));
-
+		m_imageHandlers[ovrEye_Left] = std::make_unique<ImageHandler>(std::make_unique<NetworkImageReader>(getLeftEyePort()));
 		QObject::connect(m_imageHandlers[ovrEye_Left].get(), &ImageHandler::imageReady, this, &VideoStreamServerApp::setLeftEyeImage);
 
 		// Setup right eye image handler.
 		//
-		auto rightRemoteImageReader = std::make_unique<NetworkImageReader>(getRightEyePort());
-
-		m_imageHandlers[ovrEye_Right] = std::make_unique<ImageHandler>(std::move(rightRemoteImageReader));
-
+		m_imageHandlers[ovrEye_Right] = std::make_unique<ImageHandler>(std::make_unique<NetworkImageReader>(getRightEyePort()));
 		QObject::connect(m_imageHandlers[ovrEye_Right].get(), &ImageHandler::imageReady, this, &VideoStreamServerApp::setRightEyeImage);
 
 

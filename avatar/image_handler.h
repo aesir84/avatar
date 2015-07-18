@@ -16,9 +16,9 @@ namespace avatar
 
 	public:
 
-		ImageHandler(std::unique_ptr<ImageReader> imageReader);
-		ImageHandler(std::unique_ptr<ImageReader> imageReader, std::unique_ptr<ImageProcessor> imageProcessor);
-		ImageHandler(std::unique_ptr<ImageReader> imageReader, std::unique_ptr<ImageProcessor> imageProcessor, std::unique_ptr<ImageWriter> imageWriter);
+		ImageHandler(std::unique_ptr<ImageReader> && imageReader);
+		ImageHandler(std::unique_ptr<ImageReader> && imageReader, std::unique_ptr<ImageProcessor> && imageProcessor);
+		ImageHandler(std::unique_ptr<ImageReader> && imageReader, std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageWriter> && imageWriter);
 
 	public slots:
 
@@ -30,9 +30,9 @@ namespace avatar
 
 	private:
 
-		void setupWorkingProcess(std::unique_ptr<ImageReader> imageReader) const;
-		void setupWorkingProcess(std::unique_ptr<ImageProcessor> imageProcessor, std::unique_ptr<ImageReader> imageReader) const;
-		void setupWorkingProcess(std::unique_ptr<ImageProcessor> imageProcessor, std::unique_ptr<ImageWriter> imageWriter, std::unique_ptr<ImageReader> imageReader) const;
+		void setupWorkingProcess(std::unique_ptr<ImageReader> && imageReader) const;
+		void setupWorkingProcess(std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageReader> && imageReader) const;
+		void setupWorkingProcess(std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageWriter> && imageWriter, std::unique_ptr<ImageReader> && imageReader) const;
 
 	private:
 

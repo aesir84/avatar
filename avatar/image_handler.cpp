@@ -9,16 +9,16 @@
 namespace avatar
 {
 
-	ImageHandler::ImageHandler(std::unique_ptr<ImageReader> imageReader)
+	ImageHandler::ImageHandler(std::unique_ptr<ImageReader> && imageReader)
 		: m_imageReader(std::move(imageReader))
 	{}
 
-	ImageHandler::ImageHandler(std::unique_ptr<ImageReader> imageReader, std::unique_ptr<ImageProcessor> imageProcessor)
+	ImageHandler::ImageHandler(std::unique_ptr<ImageReader> && imageReader, std::unique_ptr<ImageProcessor> && imageProcessor)
 		: m_imageReader(std::move(imageReader))
 		, m_imageProcessor(std::move(imageProcessor))
 	{}
 
-	ImageHandler::ImageHandler(std::unique_ptr<ImageReader> imageReader, std::unique_ptr<ImageProcessor> imageProcessor, std::unique_ptr<ImageWriter> imageWriter)
+	ImageHandler::ImageHandler(std::unique_ptr<ImageReader> && imageReader, std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageWriter> && imageWriter)
 		: m_imageReader(std::move(imageReader))
 		, m_imageProcessor(std::move(imageProcessor))
 		, m_imageWriter(std::move(imageWriter))
@@ -55,7 +55,7 @@ namespace avatar
 	// TODO: setupWorkingProcess() methods have lots of code duplication. This needs to be refactored.
 	//
 
-	void ImageHandler::setupWorkingProcess(std::unique_ptr<ImageReader> imageReader) const
+	void ImageHandler::setupWorkingProcess(std::unique_ptr<ImageReader> && imageReader) const
 	{
 
 		//
@@ -102,7 +102,7 @@ namespace avatar
 		imageReader.release();
 	}
 
-	void ImageHandler::setupWorkingProcess(std::unique_ptr<ImageProcessor> imageProcessor, std::unique_ptr<ImageReader> imageReader) const
+	void ImageHandler::setupWorkingProcess(std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageReader> && imageReader) const
 	{
 
 		//
@@ -174,7 +174,7 @@ namespace avatar
 		imageReader.release();
 	}
 
-	void ImageHandler::setupWorkingProcess(std::unique_ptr<ImageProcessor> imageProcessor, std::unique_ptr<ImageWriter> imageWriter, std::unique_ptr<ImageReader> imageReader) const
+	void ImageHandler::setupWorkingProcess(std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageWriter> && imageWriter, std::unique_ptr<ImageReader> && imageReader) const
 	{
 
 		//

@@ -2,11 +2,14 @@
 
 
 //
+// Disable silly warnings
+//
+#pragma warning(disable : 4127) // conditional expression is constant
+
+
+//
 // Qt
 //
-
-#pragma warning(push)
-#pragma warning(disable : 4127) // because of QVector
 
 #include <QAbstractVideoSurface>
 #include <QBuffer>
@@ -17,6 +20,7 @@
 #include <QCommandLineParser>
 #include <QDataStream>
 #include <QDebug>
+#include <QGlobal.h>
 #include <QEvent>
 #include <QExposeEvent>
 #include <QGuiApplication>
@@ -30,7 +34,6 @@
 #include <QOpenGLTexture>
 #include <QOpenGLVertexArrayObject>
 #include <QScreen>
-#include <QtGui\5.4.1\QtGui\qpa\qplatformnativeinterface.h>
 #include <QThread>
 #include <QTimer>
 #include <QTransform>
@@ -40,8 +43,6 @@
 #include <QVector3D>
 #include <QVideoSurfaceFormat>
 #include <QWindow>
-
-#pragma warning(pop)
 
 
 //
@@ -64,5 +65,5 @@
 // OVR
 //
 
-#include <OVR.h>
 #include <OVR_CAPI_GL.h>
+#include "Extras\OVR_Math.h"
