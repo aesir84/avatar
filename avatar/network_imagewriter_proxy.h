@@ -8,22 +8,22 @@ namespace avatar
 	class NetworkImageWriterProxy : public ImageWriter
 	{
 
-		friend class NetworkImageWriter;
-
 		Q_OBJECT
 
-	public slots:
-
-		virtual void startWriting() override;
-		virtual void writeImage(ImagePtr image) override;
-
-	signals:
+	Q_SIGNALS:
 
 		void imageAvailable(ImagePtr image);
 
 	private:
 
+		friend class NetworkImageWriter;
+
 		NetworkImageWriterProxy(QHostAddress const & hostAddress, quint16 hostPort);
+
+	private:
+
+		virtual void initialize() override;
+		virtual void writeImage(ImagePtr image) override;
 
 	private:
 

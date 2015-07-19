@@ -13,7 +13,7 @@ namespace avatar
 		: m_cameraInfo(cameraInfo)
 	{}
 
-	void WebcamImageReader::startReading()
+	void WebcamImageReader::initialize()
 	{
 
 		//

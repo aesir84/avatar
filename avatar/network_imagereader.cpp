@@ -32,7 +32,7 @@ namespace avatar
 		, m_expectedNetworkImageSize(0)
 	{}
 
-	void NetworkImageReader::startReading()
+	void NetworkImageReader::initialize()
 	{
 		m_socket = std::make_unique<QUdpSocket>();
 

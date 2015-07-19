@@ -14,51 +14,15 @@ namespace avatar
 
 		virtual ~ImageProcessor();
 
-	public slots:
-
-		virtual void processImage(ImagePtr image) = 0;
-
-	signals:
+	Q_SIGNALS:
 
 		void imageProcessed(ImagePtr image);
 
-	};
-
-	class LeftWebcamImageProcessor : public ImageProcessor
-	{
-
-		Q_OBJECT
-
-	public:
-
-		LeftWebcamImageProcessor();
-
-	public slots:
-
-		virtual void processImage(ImagePtr image) override;
-
 	private:
 
-		QTransform m_rotation;
+		friend class ImageSystem;
 
-	};
-
-	class RightWebcamImageProcessor : public ImageProcessor
-	{
-
-		Q_OBJECT
-
-	public:
-
-		RightWebcamImageProcessor();
-
-	public slots:
-
-		virtual void processImage(ImagePtr image) override;
-
-	private:
-
-		QTransform m_rotation;
+		virtual void processImage(ImagePtr image) = 0;
 
 	};
 

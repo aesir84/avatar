@@ -12,7 +12,7 @@ namespace avatar
 		, m_hostPort(hostPort)
 	{}
 
-	void NetworkImageWriterProxy::startWriting()
+	void NetworkImageWriterProxy::initialize()
 	{
 
 		//
@@ -26,13 +26,13 @@ namespace avatar
 
 		// Interconnect the writer's thread destruction chain.
 		//
-		QObject::connect(networkImageWriter.get(), &NetworkImageWriter::destroyed, networkImageWriterThread.get(), &QThread::quit);   // once the worker is destroyed, it will tell the thread to quit [thread's loop is still running]
+		QObject::connect(networkImageWriter.get(), &NetworkImageWriter::destroyed, networkImageWriterThread.get(), &QThread::quit);  // once the worker is destroyed, it will tell the thread to quit [thread's loop is still running]
 		QObject::connect(networkImageWriterThread.get(), &QThread::finished, networkImageWriterThread.get(), &QThread::deleteLater); // [thread's loop is still running] when the thread finishes, it will tell its object to delete itself
 
 		// Interconnect the working chain.
 		//
-		QObject::connect(networkImageWriterThread.get(), &QThread::started, networkImageWriter.get(), &NetworkImageWriter::startWriting); // once the thread starts, it will trigger the work of the writer
-		QObject::connect(this, &NetworkImageWriterProxy::imageAvailable, networkImageWriter.get(), &NetworkImageWriter::writeImage);      // once the proxy has an available image, this image can be written
+		QObject::connect(networkImageWriterThread.get(), &QThread::started, networkImageWriter.get(), &NetworkImageWriter::initialize); // once the thread starts, it will trigger the work of the writer
+		QObject::connect(this, &NetworkImageWriterProxy::imageAvailable, networkImageWriter.get(), &NetworkImageWriter::writeImage);    // once the proxy has an available image, this image can be written
 
 		// Interconnect the writer's destruction chain.
 		//

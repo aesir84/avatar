@@ -28,7 +28,7 @@ namespace avatar
 		return m_busy;
 	}
 
-	void NetworkImageWriter::startWriting()
+	void NetworkImageWriter::initialize()
 	{
 
 		//

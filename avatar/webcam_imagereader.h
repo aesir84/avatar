@@ -14,9 +14,9 @@ namespace avatar
 
 		explicit WebcamImageReader(QCameraInfo const & cameraInfo);
 
-	public slots:
+	private:
 
-		virtual void startReading() override;
+		virtual void initialize() override;
 
 	private:
 

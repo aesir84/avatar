@@ -9,6 +9,14 @@ namespace avatar
 	class ImageReader;
 	class ImageWriter;
 
+	/// \brief A system that manages the image processing pipeline
+	///
+	/// The class represents a system, that binds together all the pieces
+	/// of the image processing pipeline, like reading, processing and writing.
+	/// The class must have exclusive access to the initialization means of classes,
+	/// that make up the pipeline, i.e. ImageSystem must be a friend of e.g. ImageReader class,
+	/// while ImageReader class must keep its initialize() method private to support the scheme.
+	///
 	class ImageSystem : public QObject
 	{
 
@@ -16,23 +24,24 @@ namespace avatar
 
 	public:
 
-		ImageSystem(std::unique_ptr<ImageReader> && imageReader);
-		ImageSystem(std::unique_ptr<ImageReader> && imageReader, std::unique_ptr<ImageProcessor> && imageProcessor);
-		ImageSystem(std::unique_ptr<ImageReader> && imageReader, std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageWriter> && imageWriter);
+		ImageSystem(ImageSystem const & other) = delete;
+		ImageSystem & operator=(ImageSystem const & rhs) = delete;
 
-	public slots:
+		static std::unique_ptr<ImageSystem> create(std::unique_ptr<ImageReader> && imageReader,
+			                                       std::unique_ptr<ImageProcessor> && imageProcessor = nullptr,
+												   std::unique_ptr<ImageWriter> && imageWriter = nullptr);
 
-		void startHandling();
+		void run();
 
-	signals:
+	Q_SIGNALS:
 
 		void imageReady(ImagePtr image);
 
 	private:
 
-		void setupWorkingProcess(std::unique_ptr<ImageReader> && imageReader) const;
-		void setupWorkingProcess(std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageReader> && imageReader) const;
-		void setupWorkingProcess(std::unique_ptr<ImageProcessor> && imageProcessor, std::unique_ptr<ImageWriter> && imageWriter, std::unique_ptr<ImageReader> && imageReader) const;
+		ImageSystem(std::unique_ptr<ImageReader> && imageReader,
+			        std::unique_ptr<ImageProcessor> && imageProcessor = nullptr,
+			        std::unique_ptr<ImageWriter> && imageWriter = nullptr);
 
 	private:
 

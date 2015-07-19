@@ -307,6 +307,15 @@
     <ClCompile Include="image_system.cpp">
       <Filter>Source Files\image_utils</Filter>
     </ClCompile>
+    <ClCompile Include="webcam_imageprocessor.cpp">
+      <Filter>Source Files\webcam_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_webcam_imageprocessor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_webcam_imageprocessor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -409,6 +418,9 @@
     </CustomBuild>
     <CustomBuild Include="image_system.h">
       <Filter>Header Files\image_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="webcam_imageprocessor.h">
+      <Filter>Header Files\webcam_utils</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

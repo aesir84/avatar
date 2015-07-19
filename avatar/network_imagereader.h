@@ -14,14 +14,6 @@ namespace avatar
 
 		explicit NetworkImageReader(quint16 port);
 
-	public slots:
-
-		virtual void startReading() override;
-
-	private slots:
-
-		void readDatagrams();
-
 	private:
 
 		enum class ReaderState
@@ -33,6 +25,11 @@ namespace avatar
 
 	private:
 
+		virtual void initialize() override;
+
+	private:
+
+		void readDatagrams();
 		void readImageFromDatagram(QByteArray const & datagram);
 
 	private:

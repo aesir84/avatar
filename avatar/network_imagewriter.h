@@ -10,8 +10,6 @@ namespace avatar
 	class NetworkImageWriter : public ImageWriter
 	{
 
-		friend class NetworkImageWriterProxy;
-
 		Q_OBJECT
 
 	public:
@@ -20,12 +18,7 @@ namespace avatar
 
 		bool isBusy() const;
 
-	public slots:
-
-		virtual void startWriting() override;
-		virtual void writeImage(ImagePtr image) override;
-
-	signals:
+	Q_SIGNALS:
 
 		void dataReady(QByteArray const & data);
 
@@ -47,16 +40,23 @@ namespace avatar
 
 	private:
 
+		friend class NetworkImageWriterProxy;
+
 		NetworkImageWriter(QHostAddress const & hostAddress, quint16 hostPort);
+
+	private:
 
 		void executeDataSender(DataSenderInput const & input);
 
 		QByteArray serializeImage(QImage const & image) const;
 		QByteArray serializeImageHeader(QByteArray const & serializedImage) const;
 
-	private slots:
-
 		void processDataSent();
+
+	private:
+
+		virtual void initialize() override;
+		virtual void writeImage(ImagePtr image) override;
 
 	private:
 
