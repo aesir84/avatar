@@ -154,29 +154,11 @@
     <ClCompile Include="GeneratedFiles\Release\moc_webcam_stereoapp.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_image_processor.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_image_processor.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_image_reader.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_image_reader.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_webcam_capture.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_webcam_capture.cpp">
       <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="image_processor.cpp">
-      <Filter>Source Files\image_utils</Filter>
-    </ClCompile>
-    <ClCompile Include="image_reader.cpp">
-      <Filter>Source Files\image_utils</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_webcam_imagereader.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -189,12 +171,6 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_webcam_imagereader.cpp">
       <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="image_writer.cpp">
-      <Filter>Source Files\image_utils</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_image_writer.cpp">
-      <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_videostream_app.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -239,9 +215,6 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_videostream_serverapp.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_image_writer.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_videostream_stereoapp.cpp">
@@ -342,9 +315,6 @@
     <ClInclude Include="cmdline_parser.h">
       <Filter>Header Files\cmdline_utils</Filter>
     </ClInclude>
-    <ClInclude Include="image_typedef.h">
-      <Filter>Header Files\image_utils</Filter>
-    </ClInclude>
     <ClInclude Include="exception.h">
       <Filter>Header Files\misc_utils</Filter>
     </ClInclude>
@@ -356,6 +326,9 @@
     </ClInclude>
     <ClInclude Include="network_imageheader.h">
       <Filter>Header Files\network_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="imagesystem_typedefs.h">
+      <Filter>Header Files\image_utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -380,20 +353,11 @@
     <CustomBuild Include="webcam_stereoapp.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="image_processor.h">
-      <Filter>Header Files\image_utils</Filter>
-    </CustomBuild>
-    <CustomBuild Include="image_reader.h">
-      <Filter>Header Files\image_utils</Filter>
-    </CustomBuild>
     <CustomBuild Include="webcam_capture.h">
       <Filter>Header Files\webcam_utils</Filter>
     </CustomBuild>
     <CustomBuild Include="webcam_imagereader.h">
       <Filter>Header Files\webcam_utils</Filter>
-    </CustomBuild>
-    <CustomBuild Include="image_writer.h">
-      <Filter>Header Files\image_utils</Filter>
     </CustomBuild>
     <CustomBuild Include="videostream_app.h">
       <Filter>Header Files\videostream_utils</Filter>

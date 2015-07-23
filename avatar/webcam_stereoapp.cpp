@@ -4,7 +4,6 @@
 
 #include "exception.h"
 #include "image_system.h"
-#include "image_writer.h"
 #include "webcam_imageprocessor.h"
 #include "webcam_imagereader.h"
 

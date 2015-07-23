@@ -2,7 +2,7 @@
 
 #include "webcam_capture.h"
 
-#include "image_typedef.h"
+#include "imagesystem_typedefs.h"
 
 namespace avatar
 {

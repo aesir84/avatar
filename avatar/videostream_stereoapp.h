@@ -1,6 +1,6 @@
 #pragma once
 
-#include "image_typedef.h"
+#include "imagesystem_typedefs.h"
 #include "videostream_app.h"
 
 namespace avatar

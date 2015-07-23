@@ -3,8 +3,6 @@
 #include "videostream_serverapp.h"
 
 #include "image_system.h"
-#include "image_processor.h"
-#include "image_writer.h"
 #include "network_imagereader.h"
 
 namespace avatar
