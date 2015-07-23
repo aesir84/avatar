@@ -1,11 +1,11 @@
 #pragma once
 
-#include "image_reader.h"
+#include "imagesystem_module.h"
 
 namespace avatar
 {
 
-	class WebcamImageReader : public ImageReader
+	class WebcamImageReader : public ImageSystemModule
 	{
 
 		Q_OBJECT
@@ -14,9 +14,14 @@ namespace avatar
 
 		explicit WebcamImageReader(QCameraInfo const & cameraInfo);
 
+	public:
+
+		virtual ModuleOperation getOperationType() const override;
+
 	private:
 
 		virtual void initialize() override;
+		virtual void processImage(ImagePtr image) override;
 
 	private:
 

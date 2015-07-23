@@ -11,7 +11,8 @@ namespace avatar
 	/// It can be a webcam, a video player or even a network socket supplying image data.
 	///
 	/// The class is designed so, that only ImageSystem class is able to setup the class's initialization.
-	/// Such delayed initialization is suitable for starting the reader in its own dedicated thread.
+	/// Such delayed initialization is suitable for starting the reader in its own dedicated thread,
+	/// e.g. connecting QThread::started() signal to 
 	///
 	class ImageReader : public QObject
 	{
@@ -25,7 +26,7 @@ namespace avatar
 	Q_SIGNALS:
 
 		void imageRead(ImagePtr image);
-		void readerBroken(QString description);
+		void errorOccured(QString description);
 
 	private:
 

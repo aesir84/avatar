@@ -1,21 +1,26 @@
 #pragma once
 
-#include "image_writer.h"
+#include "imagesystem_module.h"
 
 namespace avatar
 {
 
-	class NetworkImageWriterProxy : public ImageWriter
+	class NetworkImageWriterProxy : public ImageSystemModule
 	{
 
 		Q_OBJECT
 
-	Q_SIGNALS:
+	public:
 
-		void imageAvailable(ImagePtr image);
+		virtual ModuleOperation getOperationType() const override;
 
 	private:
 
+		/// \brief A friend class to construct an object of this class
+		///
+		/// The proxy is only meant to work in pair with an object of class NetworkImageWriter.
+		/// Hence, only such objects are allowed to create the proxies.
+		///
 		friend class NetworkImageWriter;
 
 		NetworkImageWriterProxy(QHostAddress const & hostAddress, quint16 hostPort);
@@ -23,7 +28,7 @@ namespace avatar
 	private:
 
 		virtual void initialize() override;
-		virtual void writeImage(ImagePtr image) override;
+		virtual void processImage(ImagePtr image) override;
 
 	private:
 

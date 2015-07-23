@@ -1,11 +1,11 @@
 #pragma once
 
-#include "image_processor.h"
+#include "imagesystem_module.h"
 
 namespace avatar
 {
 
-	class WebcamImageProcessor : public ImageProcessor
+	class WebcamImageProcessor : public ImageSystemModule
 	{
 
 		Q_OBJECT
@@ -21,8 +21,13 @@ namespace avatar
 
 		explicit WebcamImageProcessor(WebcamSide webcamSide = WebcamSide::Right);
 
+	public:
+
+		virtual ModuleOperation getOperationType() const override;
+
 	private:
 
+		virtual void initialize() override;
 		virtual void processImage(ImagePtr image) override;
 
 	private:

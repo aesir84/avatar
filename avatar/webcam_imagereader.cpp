@@ -13,6 +13,11 @@ namespace avatar
 		: m_cameraInfo(cameraInfo)
 	{}
 
+	WebcamImageReader::ModuleOperation WebcamImageReader::getOperationType() const
+	{
+		return ModuleOperation::ImageReading;
+	}
+
 	void WebcamImageReader::initialize()
 	{
 
@@ -32,7 +37,7 @@ namespace avatar
 
 		if (webcam->error() != QCamera::NoError)
 		{
-			emit readerBroken(webcam->errorString());
+			Q_EMIT moduleBroken(webcam->errorString());
 			return;
 		}
 
@@ -40,7 +45,7 @@ namespace avatar
 
 		// Connect the image retransmitting signal slot chain.
 		//
-		QObject::connect(webcamCapture.get(), &WebcamCapture::imageCaptured, this, &WebcamImageReader::imageRead);
+		QObject::connect(webcamCapture.get(), &WebcamCapture::imageCaptured, this, &WebcamImageReader::imageProcessed);
 
 		webcam->setViewfinder(webcamCapture.release());
 		webcam->start();
@@ -49,6 +54,13 @@ namespace avatar
 		// Otherwise it will delete the camera when it gets out of scope.
 		//
 		webcam.release();
+	}
+
+	void WebcamImageReader::processImage(ImagePtr image)
+	{
+		// Empty implementation, that should not be called.
+		//
+		Q_ASSERT(false);
 	}
 
 }

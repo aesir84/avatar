@@ -10,7 +10,12 @@ namespace avatar
 	NetworkImageWriterProxy::NetworkImageWriterProxy(QHostAddress const & hostAddress, quint16 hostPort)
 		: m_hostAddress(hostAddress)
 		, m_hostPort(hostPort)
-	{}
+	{ }
+
+	NetworkImageWriterProxy::ModuleOperation NetworkImageWriterProxy::getOperationType() const
+	{
+		return ModuleOperation::ImageWriting;
+	}
 
 	void NetworkImageWriterProxy::initialize()
 	{
@@ -32,7 +37,7 @@ namespace avatar
 		// Interconnect the working chain.
 		//
 		QObject::connect(networkImageWriterThread.get(), &QThread::started, networkImageWriter.get(), &NetworkImageWriter::initialize); // once the thread starts, it will trigger the work of the writer
-		QObject::connect(this, &NetworkImageWriterProxy::imageAvailable, networkImageWriter.get(), &NetworkImageWriter::writeImage);    // once the proxy has an available image, this image can be written
+		QObject::connect(this, &NetworkImageWriterProxy::imageProcessed, networkImageWriter.get(), &NetworkImageWriter::processImage);  // once the proxy has an available image, this image can be passed to the writer
 
 		// Interconnect the writer's destruction chain.
 		//
@@ -51,7 +56,7 @@ namespace avatar
 		m_networkImageWriter = networkImageWriter.release();
 	}
 
-	void NetworkImageWriterProxy::writeImage(ImagePtr image)
+	void NetworkImageWriterProxy::processImage(ImagePtr image)
 	{
 		Q_ASSERT(m_networkImageWriter != nullptr);
 
@@ -60,7 +65,7 @@ namespace avatar
 			return;
 		}
 
-		emit imageAvailable(image);
+		Q_EMIT imageProcessed(image);
 	}
 
 }

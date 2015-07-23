@@ -1,22 +1,28 @@
 #pragma once
 
-#include "image_writer.h"
+#include "imagesystem_module.h"
 
 namespace avatar
 {
 
 	class NetworkDataSender;
 
-	class NetworkImageWriter : public ImageWriter
+	class NetworkImageWriter : public ImageSystemModule
 	{
 
 		Q_OBJECT
 
 	public:
 
-		static std::unique_ptr<ImageWriter> create(QHostAddress const & hostAddress, quint16 hostPort);
+		static std::unique_ptr<ImageSystemModule> create(QHostAddress const & hostAddress, quint16 hostPort);
+
+	public:
 
 		bool isBusy() const;
+
+	public:
+
+		virtual ModuleOperation getOperationType() const override;
 
 	Q_SIGNALS:
 
@@ -40,6 +46,13 @@ namespace avatar
 
 	private:
 
+		/// \brief A friend class to construct an object of this class
+		///
+		/// Keeping in mind the fact, that NetworkImageWriter class is implicitly managed through a proxy,
+		/// the proxy needs access to the private constructor of class NetworkImageWriter in order to implicitly create it.
+		/// There is no point for the proxy to use the factory method NetworkImageWriter::create, because this method once
+		/// again yields a proxy object.
+		///
 		friend class NetworkImageWriterProxy;
 
 		NetworkImageWriter(QHostAddress const & hostAddress, quint16 hostPort);
@@ -56,7 +69,7 @@ namespace avatar
 	private:
 
 		virtual void initialize() override;
-		virtual void writeImage(ImagePtr image) override;
+		virtual void processImage(ImagePtr image) override;
 
 	private:
 

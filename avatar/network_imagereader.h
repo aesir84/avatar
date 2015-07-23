@@ -1,11 +1,11 @@
 #pragma once
 
-#include "image_reader.h"
+#include "imagesystem_module.h"
 
 namespace avatar
 {
 
-	class NetworkImageReader : public ImageReader
+	class NetworkImageReader : public ImageSystemModule
 	{
 
 		Q_OBJECT
@@ -13,6 +13,10 @@ namespace avatar
 	public:
 
 		explicit NetworkImageReader(quint16 port);
+
+	public:
+
+		virtual ModuleOperation getOperationType() const override;
 
 	private:
 
@@ -26,6 +30,7 @@ namespace avatar
 	private:
 
 		virtual void initialize() override;
+		virtual void processImage(ImagePtr image) override;
 
 	private:
 

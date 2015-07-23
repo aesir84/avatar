@@ -28,12 +28,24 @@ namespace avatar
 		}
 	}
 
+	WebcamImageProcessor::ModuleOperation WebcamImageProcessor::getOperationType() const
+	{
+		return ModuleOperation::ImageProcessing;
+	}
+
+	void WebcamImageProcessor::initialize()
+	{
+		// Empty implementation, that should not be called.
+		//
+		Q_ASSERT(false);
+	}
+
 	void WebcamImageProcessor::processImage(ImagePtr image)
 	{
 		auto processedImage = image->transformed(m_rotation);
 		image->swap(processedImage);
 
-		emit imageProcessed(image);
+		Q_EMIT imageProcessed(image);
 	}
 
 }

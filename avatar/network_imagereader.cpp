@@ -32,6 +32,11 @@ namespace avatar
 		, m_expectedNetworkImageSize(0)
 	{}
 
+	NetworkImageReader::ModuleOperation NetworkImageReader::getOperationType() const
+	{
+		return ModuleOperation::ImageReading;
+	}
+
 	void NetworkImageReader::initialize()
 	{
 		m_socket = std::make_unique<QUdpSocket>();
@@ -40,6 +45,13 @@ namespace avatar
 		QObject::connect(m_socket.get(), &QUdpSocket::readyRead, this, &NetworkImageReader::readDatagrams);
 
 		m_readerState = ReaderState::WaitingForNetworkImageHeader;
+	}
+
+	void NetworkImageReader::processImage(ImagePtr image)
+	{
+		// Empty implementation, that should not be called.
+		//
+		Q_ASSERT(false);
 	}
 
 	void NetworkImageReader::readDatagrams()
@@ -115,7 +127,7 @@ namespace avatar
 					{
 						QByteArray const uncompressedNetworkImage = qUncompress(m_receivedNetworkImage);
 						auto image = std::make_shared<QImage>(QImage::fromData(uncompressedNetworkImage, NetworkImageSettings::getImageFormat()));
-						emit imageRead(image);
+						Q_EMIT imageProcessed(image);
 
 						m_receivedNetworkImage.clear();
 

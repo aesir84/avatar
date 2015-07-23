@@ -10,10 +10,9 @@
 namespace avatar
 {
 
-	std::unique_ptr<ImageWriter> NetworkImageWriter::create(QHostAddress const & hostAddress, quint16 hostPort)
+	std::unique_ptr<ImageSystemModule> NetworkImageWriter::create(QHostAddress const & hostAddress, quint16 hostPort)
 	{
-		std::unique_ptr<NetworkImageWriterProxy> proxy(new NetworkImageWriterProxy(hostAddress, hostPort));
-		return std::move(proxy);
+		return std::unique_ptr<ImageSystemModule>(new NetworkImageWriterProxy(hostAddress, hostPort));
 	}
 
 	NetworkImageWriter::NetworkImageWriter(QHostAddress const & hostAddress, quint16 hostPort)
@@ -26,6 +25,11 @@ namespace avatar
 	bool NetworkImageWriter::isBusy() const
 	{
 		return m_busy;
+	}
+
+	NetworkImageWriter::ModuleOperation NetworkImageWriter::getOperationType() const
+	{
+		return ModuleOperation::ImageWriting;
 	}
 
 	void NetworkImageWriter::initialize()
@@ -68,7 +72,7 @@ namespace avatar
 		m_dataSender = dataSender.release();
 	}
 
-	void NetworkImageWriter::writeImage(ImagePtr image)
+	void NetworkImageWriter::processImage(ImagePtr image)
 	{
 		Q_ASSERT(!m_busy && m_dataSenderState == DataSenderState::Idle);
 
