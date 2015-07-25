@@ -6,7 +6,29 @@ namespace avatar
 {
 
 	VideoStreamStereoApp::VideoStreamStereoApp()
-	{}
+		: m_currentFrameCounts()
+	{ }
+
+	VideoStreamStereoApp::~VideoStreamStereoApp()
+	{
+		if (!m_frameCountsPerEyeImages[ovrEye_Left].empty())
+		{
+			auto const & frameCountsPerLeftEyeImages = m_frameCountsPerEyeImages[ovrEye_Left];
+			std::wcout
+				<< L"Average frame count per one image for left eye is "
+				<< std::accumulate(frameCountsPerLeftEyeImages.begin(), frameCountsPerLeftEyeImages.end(), 0) / frameCountsPerLeftEyeImages.size()
+				<< L" frames/image" << std::endl;
+		}
+
+		if (!m_frameCountsPerEyeImages[ovrEye_Right].empty())
+		{
+			auto const & frameCountsPerRightEyeImages = m_frameCountsPerEyeImages[ovrEye_Right];
+			std::wcout
+				<< L"Average frame count per one image for right eye is "
+				<< std::accumulate(frameCountsPerRightEyeImages.begin(), frameCountsPerRightEyeImages.end(), 0) / frameCountsPerRightEyeImages.size()
+				<< L" frames/image" << std::endl;
+		}
+	}
 
 	void VideoStreamStereoApp::initializeApp()
 	{
@@ -15,7 +37,11 @@ namespace avatar
 
 	void VideoStreamStereoApp::bindEyeTexture(ovrEyeType renderedEye)
 	{
-		if (m_eyeTextures[renderedEye] != nullptr && !m_eyeTextures[renderedEye]->isBound()) m_eyeTextures[renderedEye]->bind();
+		if (m_eyeTextures[renderedEye] != nullptr && !m_eyeTextures[renderedEye]->isBound())
+		{
+			m_eyeTextures[renderedEye]->bind();
+			++m_currentFrameCounts[renderedEye];
+		}
 	}
 
 	void VideoStreamStereoApp::releaseEyeTexture(ovrEyeType renderedEye)
@@ -60,6 +86,11 @@ namespace avatar
 			// Update the pixels of the existing texture.
 			//
 			m_eyeTextures[eye]->setData(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, textureImage.bits());
+
+			// Update frames counting variables.
+			//
+			m_frameCountsPerEyeImages[eye].push_back(m_currentFrameCounts[eye]);
+			m_currentFrameCounts[eye] = 0;
 		}
 	}
 

@@ -14,6 +14,7 @@ namespace avatar
 	public:
 
 		VideoStreamStereoApp();
+		~VideoStreamStereoApp();
 
 	protected:
 
@@ -34,6 +35,8 @@ namespace avatar
 	private:
 
 		std::array<std::unique_ptr<QOpenGLTexture>, ovrEye_Count> m_eyeTextures;
+		std::array<std::vector<size_t>, ovrEye_Count> m_frameCountsPerEyeImages;
+		std::array<size_t, ovrEye_Count> m_currentFrameCounts;
 
 	};
 

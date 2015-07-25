@@ -14,6 +14,7 @@ namespace avatar
 	public:
 
 		VideoStreamMonoApp();
+		~VideoStreamMonoApp();
 
 	protected:
 
@@ -22,13 +23,16 @@ namespace avatar
 		virtual void bindEyeTexture(ovrEyeType renderedEye) override final;
 		virtual void releaseEyeTexture(ovrEyeType renderedEye) override final;
 
-	protected slots:
+	protected:
 
 		void setEyeImage(ImagePtr image);
 
 	private:
 
 		std::unique_ptr<QOpenGLTexture> m_eyeTexture;
+
+		size_t m_currentFramesPerImageCount;
+		std::vector<size_t> m_framesPerImages;
 
 	};
 
