@@ -73,6 +73,11 @@ namespace avatar
 		qRegisterMetaType<ImagePtr>("ImagePtr");
 	}
 
+	void VideoStreamApp::startFrame()
+	{
+		RiftApp::startFrame();
+	}
+
 	void VideoStreamApp::renderScene(ovrEyeType renderedEye, QMatrix4x4 const & view, QMatrix4x4 const & projection, float timeDelta)
 	{
 		Q_UNUSED(view);

@@ -6,14 +6,18 @@ namespace avatar
 {
 
 	VideoStreamMonoApp::VideoStreamMonoApp()
-		: m_currentFramesPerImageCount(0)
+		: m_framesCounter(0)
 	{ }
 
 	VideoStreamMonoApp::~VideoStreamMonoApp()
 	{
-		if (!m_framesPerImages.empty())
+		if (!m_framesCountPerImages.empty())
 		{
-			std::wcout << L"Average frame count per one image is " << std::accumulate(m_framesPerImages.begin(), m_framesPerImages.end(), 0) / m_framesPerImages.size() << L" frames/image" << std::endl;
+			std::wcout
+				<< L"Average frame count per one image is "
+				<< std::accumulate(m_framesCountPerImages.begin(), m_framesCountPerImages.end(), 0) / m_framesCountPerImages.size()
+				<< L" frames/image"
+				<< std::endl;
 		}
 	}
 
@@ -22,15 +26,17 @@ namespace avatar
 		VideoStreamApp::initializeApp();
 	}
 
+	void VideoStreamMonoApp::startFrame()
+	{
+		VideoStreamApp::startFrame();
+		++m_framesCounter;
+	}
+
 	void VideoStreamMonoApp::bindEyeTexture(ovrEyeType renderedEye)
 	{
 		Q_UNUSED(renderedEye);
 
-		if (m_eyeTexture != nullptr && !m_eyeTexture->isBound())
-		{
-			m_eyeTexture->bind();
-			++m_currentFramesPerImageCount;
-		}
+		if (m_eyeTexture != nullptr && !m_eyeTexture->isBound()) m_eyeTexture->bind();
 	}
 
 	void VideoStreamMonoApp::releaseEyeTexture(ovrEyeType renderedEye)
@@ -67,10 +73,10 @@ namespace avatar
 			//
 			m_eyeTexture->setData(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, textureImage.bits());
 
-			// Update performance monitoring variables.
+			// Update image latency statictics.
 			//
-			m_framesPerImages.push_back(m_currentFramesPerImageCount);
-			m_currentFramesPerImageCount = 0;
+			m_framesCountPerImages.push_back(m_framesCounter);
+			m_framesCounter = 0;
 		}
 	}
 

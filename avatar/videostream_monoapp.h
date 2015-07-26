@@ -19,6 +19,7 @@ namespace avatar
 	protected:
 
 		virtual void initializeApp() override;
+		virtual void startFrame() override;
 
 		virtual void bindEyeTexture(ovrEyeType renderedEye) override final;
 		virtual void releaseEyeTexture(ovrEyeType renderedEye) override final;
@@ -31,8 +32,14 @@ namespace avatar
 
 		std::unique_ptr<QOpenGLTexture> m_eyeTexture;
 
-		size_t m_currentFramesPerImageCount;
-		std::vector<size_t> m_framesPerImages;
+		/// \brief Statistics about image latency
+		///
+		/// Considering the fact, that the images are coming from possibly high latency devices,
+		/// such as webcams or network sockets,
+		/// it is worth measuring how many frames use the same single image.
+		///
+		size_t m_framesCounter;
+		std::vector<size_t> m_framesCountPerImages;
 
 	};
 

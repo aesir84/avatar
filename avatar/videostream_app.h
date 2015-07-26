@@ -21,6 +21,7 @@ namespace avatar
 	protected:
 
 		virtual void initializeApp() override;
+		virtual void startFrame() override;
 		virtual void renderScene(ovrEyeType renderedEye, QMatrix4x4 const & view, QMatrix4x4 const & projection, float timeDelta) override final;
 
 		virtual void bindEyeTexture(ovrEyeType renderedEye) = 0;
