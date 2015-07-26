@@ -17,26 +17,28 @@ namespace avatar
 
 
 		//
-		// Setup image handlers for both eyes.
+		// Setup image systems for both eyes.
 		//
 
-		// Setup left eye image handler.
+		// Setup left eye image system.
 		//
-		m_imageHandlers[ovrEye_Left] = ImageSystem::create(std::make_unique<NetworkImageReader>(getLeftEyePort()));
-		QObject::connect(m_imageHandlers[ovrEye_Left].get(), &ImageSystem::imageReady, this, &VideoStreamServerApp::setLeftEyeImage);
+		m_imageSystems[ovrEye_Left] = ImageSystem::create(std::make_unique<NetworkImageReader>(getLeftEyePort()));
+		QObject::connect(m_imageSystems[ovrEye_Left].get(), &ImageSystem::imageReady, this, &VideoStreamServerApp::setLeftEyeImage);
+		QObject::connect(m_imageSystems[ovrEye_Left].get(), &ImageSystem::errorOccured, this, &VideoStreamServerApp::raiseVideoStreamException);
 
-		// Setup right eye image handler.
+		// Setup right eye image system.
 		//
-		m_imageHandlers[ovrEye_Right] = ImageSystem::create(std::make_unique<NetworkImageReader>(getRightEyePort()));
-		QObject::connect(m_imageHandlers[ovrEye_Right].get(), &ImageSystem::imageReady, this, &VideoStreamServerApp::setRightEyeImage);
+		m_imageSystems[ovrEye_Right] = ImageSystem::create(std::make_unique<NetworkImageReader>(getRightEyePort()));
+		QObject::connect(m_imageSystems[ovrEye_Right].get(), &ImageSystem::imageReady, this, &VideoStreamServerApp::setRightEyeImage);
+		QObject::connect(m_imageSystems[ovrEye_Right].get(), &ImageSystem::errorOccured, this, &VideoStreamServerApp::raiseVideoStreamException);
 
 
 		//
 		// Start the handlers' work.
 		//
 
-		m_imageHandlers[ovrEye_Left]->run();
-		m_imageHandlers[ovrEye_Right]->run();
+		m_imageSystems[ovrEye_Left]->run();
+		m_imageSystems[ovrEye_Right]->run();
 	}
 
 }

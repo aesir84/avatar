@@ -2,6 +2,7 @@
 
 #include "videostream_app.h"
 
+#include "exception.h"
 #include "imagesystem_typedefs.h"
 
 namespace avatar
@@ -37,8 +38,10 @@ namespace avatar
 		setFormat(requiredFormat);
 	}
 
-	VideoStreamApp::~VideoStreamApp()
-	{}
+	void VideoStreamApp::raiseVideoStreamException(QString const & exceptionDescription)
+	{
+		throw Exception("Video stream error", exceptionDescription);
+	}
 
 	void VideoStreamApp::initializeApp()
 	{

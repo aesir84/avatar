@@ -13,7 +13,10 @@ namespace avatar
 	public:
 
 		VideoStreamApp();
-		~VideoStreamApp();
+
+	protected:
+
+		void raiseVideoStreamException(QString const & exceptionDescription);
 
 	protected:
 

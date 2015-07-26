@@ -24,11 +24,12 @@ namespace avatar
 			throw Exception("Webcam error", "no available devices found");
 		}
 
-		m_imageHandler = ImageSystem::create(std::make_unique<WebcamImageReader>(cameras[0]),
+		m_imageSystem = ImageSystem::create(std::make_unique<WebcamImageReader>(cameras[0]),
 			                                 std::make_unique<WebcamImageProcessor>());
-		QObject::connect(m_imageHandler.get(), &ImageSystem::imageReady, this, &WebcamMonoApp::setEyeImage);
+		QObject::connect(m_imageSystem.get(), &ImageSystem::imageReady, this, &WebcamMonoApp::setEyeImage);
+		QObject::connect(m_imageSystem.get(), &ImageSystem::errorOccured, this, &WebcamMonoApp::raiseVideoStreamException);
 
-		m_imageHandler->run();
+		m_imageSystem->run();
 	}
 
 }

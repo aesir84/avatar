@@ -23,7 +23,7 @@ namespace avatar
 
 	private:
 
-		std::array<std::unique_ptr<ImageSystem>, ovrEye_Count> m_imageHandlers;
+		std::array<std::unique_ptr<ImageSystem>, ovrEye_Count> m_imageSystems;
 
 	};
 

@@ -22,7 +22,7 @@ namespace avatar
 
 	private:
 
-		std::unique_ptr<ImageSystem> m_imageHandler;
+		std::unique_ptr<ImageSystem> m_imageSystem;
 
 	};
 

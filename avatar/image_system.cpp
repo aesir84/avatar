@@ -25,8 +25,6 @@ namespace avatar
 
 	void ImageSystem::run()
 	{
-		// TODO!!! Interconnect error signals.
-
 		if (m_imageWriter != nullptr)
 		{
 			Q_ASSERT(m_imageProcessor != nullptr);
@@ -55,6 +53,11 @@ namespace avatar
 			// Interconnect the writer's destruction chain.
 			//
 			QObject::connect(this, &ImageSystem::destroyed, m_imageWriter.get(), &ImageSystemModule::deleteLater); // once the current object is destroyed, it will tell the worker to be destroyed as well
+
+			// Interconnect the writer's error signal.
+			// Currently, just make a passthrough signal to signal connection without any elaborate processing.
+			//
+			QObject::connect(m_imageWriter.get(), &ImageSystemModule::moduleBroken, this, &ImageSystem::errorOccured);
 
 			// Start writing.
 			//
@@ -103,6 +106,11 @@ namespace avatar
 			//
 			QObject::connect(this, &ImageSystem::destroyed, m_imageProcessor.get(), &ImageSystemModule::deleteLater); // once the current object is destroyed, it will tell the worker to be destroyed as well
 
+			// Interconnect the processor's error signal.
+			// Currently, just make a passthrough signal to signal connection without any elaborate processing.
+			//
+			QObject::connect(m_imageProcessor.get(), &ImageSystemModule::moduleBroken, this, &ImageSystem::errorOccured);
+
 			// Start processing.
 			//
 			imageProcessorThread->start();
@@ -147,6 +155,11 @@ namespace avatar
 		// Interconnect the reader destruction chain.
 		//
 		QObject::connect(this, &ImageSystem::destroyed, m_imageReader.get(), &ImageSystemModule::deleteLater);
+
+		// Interconnect the reader's error signal.
+		// Currently, just make a passthrough signal to signal connection without any elaborate processing.
+		//
+		QObject::connect(m_imageReader.get(), &ImageSystemModule::moduleBroken, this, &ImageSystem::errorOccured);
 
 		// Start reading.
 		//

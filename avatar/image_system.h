@@ -15,7 +15,7 @@ namespace avatar
 	/// This exclusiveness is ensured by a scheme where ImageSystemModule class keeps its initialization
 	/// and working routines private, while ImageSystem class has a friend relationship with it.
 	/// The inputs of the system are implicitly represented by the inputs of reading modules.
-	/// The outputs are two explicit signals: imageReady() and error().
+	/// The outputs are two explicit signals: imageReady() and errorOccured().
 	///
 	class ImageSystem : public QObject
 	{
@@ -36,7 +36,7 @@ namespace avatar
 	Q_SIGNALS:
 
 		void imageReady(ImagePtr image);
-		void error(QString errorDescription);
+		void errorOccured(QString errorDescription);
 
 	private:
 
