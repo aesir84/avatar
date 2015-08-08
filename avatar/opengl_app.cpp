@@ -131,7 +131,6 @@ namespace avatar
 			if (!isAppInitialized())
 			{
 				initializeApp();
-				resizeApp(width(), height());
 			}
 			renderNow();
 		}

@@ -84,6 +84,27 @@ namespace avatar
 			throw Exception(error_caption::ovrInit, ovrHmd_GetLastError(m_hmdDescriptor));
 		}
 
+
+		//
+		// Initialize eye projection matrices.
+		//
+
+		// These matrices remain constant, because neither of the parameters seems to change,
+		// if one uses ovrMatrix4f_Projection function to create those matrices.
+		// The runtime also does not seem to be affected, if these matrices are kept constant.
+		//
+
+		float const znear = 0.1f;
+		float const zfar = 100.0f;
+
+		m_eyeProjections[ovrEye_Left] = QMatrix4x4(&ovrMatrix4f_Projection(m_eyeDescriptors[ovrEye_Left].Fov, znear, zfar, ovrProjection_RightHanded).M[0][0]);
+		m_eyeProjections[ovrEye_Right] = QMatrix4x4(&ovrMatrix4f_Projection(m_eyeDescriptors[ovrEye_Right].Fov, znear, zfar, ovrProjection_RightHanded).M[0][0]);
+
+
+		//
+		// Initialize runtime statistics variables.
+		//
+
 		m_framesCounterLastTime = ovr_GetTimeInSeconds();
 	}
 
@@ -201,6 +222,11 @@ namespace avatar
 		}
 		auto hmdDescriptorGuard = guardScope([hmdDescriptor]{ ovrHmd_Destroy(hmdDescriptor); });
 
+		if ((hmdDescriptor->HmdCaps & ovrHmdCap_ExtendDesktop) != 0)
+		{
+			throw Exception(error_caption::ovrStart, "extended display mode is not supported");
+		}
+
 		unsigned int const trackingCapabilityBits = ovrTrackingCap_Orientation | ovrTrackingCap_Position | ovrTrackingCap_MagYawCorrection;
 
 		if (!ovrHmd_ConfigureTracking(hmdDescriptor, trackingCapabilityBits, trackingCapabilityBits))
@@ -293,32 +319,7 @@ namespace avatar
 
 		int const distortionCaps = ovrDistortionCap_Vignette | ovrDistortionCap_TimeWarp | ovrDistortionCap_Overdrive;
 
-		if (!ovrHmd_ConfigureRendering(m_hmdDescriptor, &config.Config, distortionCaps, m_hmdDescriptor->DefaultEyeFov, m_eyeDescriptors.data()))
-		{
-			return false;
-		}
-
-		//
-		// Update the perspective projection matrix.
-		//
-
-		int const w = width();
-		int const h = height() != 0 ? height() : 1;
-
-		float const aspectRatio = static_cast<float>(w) / h;
-		float const nearPlane = 0.1f;
-		float const farPlane = 100.0f;
-
-		auto updateEyeProjection = [&](ovrEyeType eye)
-		{
-			m_eyeProjections[eye].setToIdentity();
-
-			auto yfov = qRadiansToDegrees(qAtan(m_eyeDescriptors[eye].Fov.DownTan) + qAtan(m_eyeDescriptors[eye].Fov.UpTan));
-			m_eyeProjections[eye].perspective(yfov, aspectRatio, nearPlane, farPlane);
-		};
-		rift_utils::foreach_eye(updateEyeProjection); // run the lambda for each eye
-
-		return true;
+		return ovrHmd_ConfigureRendering(m_hmdDescriptor, &config.Config, distortionCaps, m_hmdDescriptor->DefaultEyeFov, m_eyeDescriptors.data());
 	}
 
 	bool RiftApp::configureOvrOffscreenRendering()

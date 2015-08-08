@@ -113,6 +113,17 @@ namespace avatar
 
 		void setOvrGeometry();
 
+		/// \brief Configuration of basic OVR screen parameters
+		///
+		/// This method is based around ovrHmd_ConfigureRendering function, that
+		/// can be called many times to update certain rendering parameters.
+		/// In this case the main thing to update is backbuffer size, which is
+		/// actual when the app window size is changed.
+		/// To sum it up,
+		/// this method should be called from two places:
+		/// 1. from initializeApp() method
+		/// 2. from resizeApp() method
+		///
 		bool reconfigureOvrScreenRendering();
 
 		/// \brief Configuration of offscreen rendering parameters
