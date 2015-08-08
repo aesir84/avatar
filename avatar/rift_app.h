@@ -49,6 +49,10 @@ namespace avatar
 		///
 		virtual void initializeApp() override;
 
+		/// \brief Overriden resizeApp() method from OpenGlApp class
+		///
+		virtual void resizeApp(int width, int height) override;
+
 		/// \brief Overriden startFrame() method from OpenGlApp class
 		///
 		/// The method starts the rendering of a frame.
@@ -98,6 +102,7 @@ namespace avatar
 		using EyePoses = std::array<ovrPosef, ovrEye_Count>;
 		using EyeViewPorts = std::array<ovr::Recti, ovrEye_Count>;
 		using EyeViewOffsets = std::array<ovrVector3f, ovrEye_Count>;
+		using EyeProjectionMatrices = std::array<QMatrix4x4, ovrEye_Count>;
 
 	private:
 
@@ -107,6 +112,17 @@ namespace avatar
 		bool isOvrFinished() const;
 
 		void setOvrGeometry();
+
+		bool reconfigureOvrScreenRendering();
+
+		/// \brief Configuration of offscreen rendering parameters
+		///
+		/// This helping method handles the creation of a framebuffer object
+		/// and the configuration of textures that are needed to create this object.
+		/// The method should be called once from initializeApp() method,
+		/// since there are no plans to alter the textures' sizes or parameters later on.
+		///
+		bool configureOvrOffscreenRendering();
 
 		/// \brief Methods to conveniently extract data from other data structures
 		///
@@ -122,6 +138,7 @@ namespace avatar
 
 		ovrHmd m_hmdDescriptor;
 
+		EyeProjectionMatrices m_eyeProjections;
 		EyeDescriptors m_eyeDescriptors;
 		EyeTextures m_eyeTextures;
 		EyePoses m_eyePoses;
@@ -131,7 +148,6 @@ namespace avatar
 		std::unique_ptr<QOpenGLFramebufferObject> m_fbo;
 
 		float m_frameTimeDelta;
-
 		int m_framesCounter;
 		double m_framesCounterLastTime;
 		std::vector<double> m_frameTimes;

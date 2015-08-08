@@ -41,10 +41,10 @@ namespace avatar
 	}
 
 	void OpenGlApp::uninitializeApp()
-	{}
+	{ }
 
 	void OpenGlApp::resizeApp(int, int)
-	{}
+	{ }
 
 	void OpenGlApp::setAnimating(bool isAnimating)
 	{
@@ -141,7 +141,7 @@ namespace avatar
 	{
 		if (isExposed() && isAppInitialized())
 		{
-			resize(ev->size().width(), ev->size().height());
+			resizeApp(ev->size().width(), ev->size().height());
 		}
 	}
 

@@ -55,79 +55,35 @@ namespace avatar
 		OpenGlApp::uninitializeApp();
 	}
 
+	void RiftApp::resizeApp(int width, int height)
+	{
+		OpenGlApp::resizeApp(width, height);
+
+		if (!reconfigureOvrScreenRendering())
+		{
+			throw Exception("App resizing logic", "failed to resize");
+		}
+	}
+
 	void RiftApp::initializeApp()
 	{
-		// First of all, let the superclass perform its initialization.
-		//
 		OpenGlApp::initializeApp();
 
-		// Initialize offscreen rendering texture size.
-		//
-		float const defaultPixelDensity = 1.0f;
-
-		auto const defaultLeftEyeFov = m_hmdDescriptor->DefaultEyeFov[ovrEye_Left];
-		auto const defaultRightEyeFov = m_hmdDescriptor->DefaultEyeFov[ovrEye_Right];
-
-		auto const leftEyeTextureSize = ovrHmd_GetFovTextureSize(m_hmdDescriptor, ovrEye_Left, defaultLeftEyeFov, defaultPixelDensity);
-		auto const rightEyeTextureSize = ovrHmd_GetFovTextureSize(m_hmdDescriptor, ovrEye_Right, defaultRightEyeFov, defaultPixelDensity);
-
-		ovr::Sizei const fullTextureSize(leftEyeTextureSize.w + rightEyeTextureSize.w, std::max(leftEyeTextureSize.h, rightEyeTextureSize.h));
-
-		// Create a frame buffer object using the offscreen rendering texture size.
-		// The frame object also contains a depth buffer.
-		//
-		m_fbo = std::make_unique<QOpenGLFramebufferObject>(fullTextureSize.w, fullTextureSize.h, QOpenGLFramebufferObject::Depth);
-
-		Q_ASSERT(m_fbo->isValid());
-
-		// Initialize eye viewports.
-		// The viewports split the full texture size into two parts:
-		// one for the left eye and the other one for the right eye.
-		//
-		EyeViewPorts eyeViewPorts;
-
-		eyeViewPorts[ovrEye_Left] = ovr::Recti(ovr::Vector2i(0), leftEyeTextureSize);
-		eyeViewPorts[ovrEye_Right] = ovr::Recti(ovr::Vector2i((fullTextureSize.w + 1) / 2, 0), rightEyeTextureSize);
-
-		// Initialize OVR eye textures.
-		//
-		auto initEyeTexture = [&](ovrEyeType eye) // create an eye initialization lambda
+		if (!configureOvrOffscreenRendering())
 		{
-			auto & textureHeader = m_eyeTextures[eye].OGL.Header;
-
-			textureHeader.API = ovrRenderAPI_OpenGL;
-			textureHeader.RenderViewport = eyeViewPorts[eye];
-			textureHeader.TextureSize = fullTextureSize;
-
-			m_eyeTextures[eye].OGL.TexId = m_fbo->texture();
-		};
-		rift_utils::foreach_eye(initEyeTexture); // run the lambda for each eye
-
-		// Configure OVR to use OpenGL for rendering.
-		//
-		ovrGLConfig config;
-		memset(&config, 0, sizeof(config));
-
-		auto & header = config.OGL.Header;
-		header.API = ovrRenderAPI_OpenGL;
-		header.BackBufferSize = ovr::Sizei(m_hmdDescriptor->Resolution.w, m_hmdDescriptor->Resolution.h);
-
-		int const distortionCaps = ovrDistortionCap_Vignette | ovrDistortionCap_TimeWarp | ovrDistortionCap_Overdrive;
-
-		if (!ovrHmd_ConfigureRendering(m_hmdDescriptor, &config.Config, distortionCaps, m_hmdDescriptor->DefaultEyeFov, m_eyeDescriptors.data()))
-		{
-			throw Exception(error_caption::ovrInit, ovrHmd_GetLastError(m_hmdDescriptor));
+			throw Exception(error_caption::ovrInit, "failed to configure offscreen rendering");
 		}
 
-		// Finally, attach OVR to the current window.
-		//
+		if (!reconfigureOvrScreenRendering())
+		{
+			throw Exception(error_caption::ovrInit, "failed to configure screen rendering");
+		}
+
 		if (!ovrHmd_AttachToWindow(m_hmdDescriptor, getWindowHandle(), nullptr, nullptr))
 		{
 			throw Exception(error_caption::ovrInit, ovrHmd_GetLastError(m_hmdDescriptor));
 		}
 
-		// Initialize the time for the frames counter.
-		//
 		m_framesCounterLastTime = ovr_GetTimeInSeconds();
 	}
 
@@ -187,12 +143,6 @@ namespace avatar
 
 			glViewport(eyeViewPorts[currentEye].x, eyeViewPorts[currentEye].y, eyeViewPorts[currentEye].w, eyeViewPorts[currentEye].h);
 
-			// Get the perspective projection.
-			//
-			float const nearClipping = 0.1f;
-			float const farClipping = 1000.0f;
-			QMatrix4x4 const projection(&ovrMatrix4f_Projection(m_eyeDescriptors[currentEye].Fov, nearClipping, farClipping, true).M[0][0]);
-
 			// Rotate and position the view camera.
 			//
 			ovr::Posef const currentEyePose(m_eyePoses[currentEye]);
@@ -202,7 +152,7 @@ namespace avatar
 
 			QMatrix4x4 const view(&ovr::Matrix4f::LookAtRH(viewPos, viewPos + forward, up).M[0][0]);
 
-			renderScene(currentEye, view, projection, m_frameTimeDelta);
+			renderScene(currentEye, view, m_eyeProjections[currentEye], m_frameTimeDelta);
 		};
 
 		// Run the lambda for each eye.
@@ -289,9 +239,160 @@ namespace avatar
 		Q_ASSERT(isOvrStarted());
 
 		auto const & position = m_hmdDescriptor->WindowsPos;
-		auto const & resolution = m_hmdDescriptor->Resolution;
+		auto const & size = m_hmdDescriptor->Resolution;
 
-		setGeometry(position.x, position.y, resolution.w, resolution.h);
+
+		//
+		// Since the only supported display mode is the direct one,
+		// it is possible to make the window smaller.
+		//
+
+		Q_ASSERT((m_hmdDescriptor->HmdCaps & ovrHmdCap_ExtendDesktop) == 0);
+
+		auto * scr = screen();
+
+		// A sanity check.
+		//
+		Q_ASSERT(scr != nullptr);
+
+		QSize scrSize(scr->size());
+
+		// Decrease the size keeping the proportions.
+		//
+		int appWindowWidth = size.w / 2;
+		int appWindowHeight = size.h / 2;
+
+		while (appWindowWidth >= scrSize.width() || appWindowHeight >= scrSize.height())
+		{
+			appWindowWidth /= 2;
+			appWindowHeight /= 2;
+		}
+
+		setGeometry(position.x, position.y, appWindowWidth, appWindowHeight);
+	}
+
+	bool RiftApp::reconfigureOvrScreenRendering()
+	{
+
+		//
+		// Configure OVR main rendering parameters.
+		//
+
+		ovrGLConfig config;
+		memset(&config, 0, sizeof(config));
+
+		// Configure OVR to use OpenGL for rendering.
+		//
+		config.OGL.Header.API = ovrRenderAPI_OpenGL;
+
+		// The size of the backbuffer is set to the size of the application window.
+		// It is a more flexible approach allowing to set custom window sizes,
+		// which are not bound to the HMD resolution.
+		//
+		config.OGL.Header.BackBufferSize = ovr::Sizei(width(), height());
+
+		int const distortionCaps = ovrDistortionCap_Vignette | ovrDistortionCap_TimeWarp | ovrDistortionCap_Overdrive;
+
+		if (!ovrHmd_ConfigureRendering(m_hmdDescriptor, &config.Config, distortionCaps, m_hmdDescriptor->DefaultEyeFov, m_eyeDescriptors.data()))
+		{
+			return false;
+		}
+
+		//
+		// Update the perspective projection matrix.
+		//
+
+		int const w = width();
+		int const h = height() != 0 ? height() : 1;
+
+		float const aspectRatio = static_cast<float>(w) / h;
+		float const nearPlane = 0.1f;
+		float const farPlane = 100.0f;
+
+		auto updateEyeProjection = [&](ovrEyeType eye)
+		{
+			m_eyeProjections[eye].setToIdentity();
+
+			auto yfov = qRadiansToDegrees(qAtan(m_eyeDescriptors[eye].Fov.DownTan) + qAtan(m_eyeDescriptors[eye].Fov.UpTan));
+			m_eyeProjections[eye].perspective(yfov, aspectRatio, nearPlane, farPlane);
+		};
+		rift_utils::foreach_eye(updateEyeProjection); // run the lambda for each eye
+
+		return true;
+	}
+
+	bool RiftApp::configureOvrOffscreenRendering()
+	{
+
+		//
+		// Retrieve eye textures' sizes recommended by OVR.
+		//
+
+		float const defaultPixelDensity = 1.0f;
+
+		auto const defaultLeftEyeFov = m_hmdDescriptor->DefaultEyeFov[ovrEye_Left];
+		auto const defaultRightEyeFov = m_hmdDescriptor->DefaultEyeFov[ovrEye_Right];
+
+		auto const recommendedLeftEyeTextureSize = ovrHmd_GetFovTextureSize(m_hmdDescriptor, ovrEye_Left, defaultLeftEyeFov, defaultPixelDensity);
+		auto const recommendedRightEyeTextureSize = ovrHmd_GetFovTextureSize(m_hmdDescriptor, ovrEye_Right, defaultRightEyeFov, defaultPixelDensity);
+
+
+		//
+		// Offscreen rendering uses a single texture, which is shared by both eyes.
+		//
+
+		// Calculate the size of a shared texture.
+		//
+		ovr::Sizei const fullTextureSize(recommendedLeftEyeTextureSize.w + recommendedRightEyeTextureSize.w, std::max(recommendedLeftEyeTextureSize.h, recommendedRightEyeTextureSize.h));
+
+		// Create a frame buffer object using the offscreen rendering texture size.
+		// The frame object also contains a depth buffer.
+		//
+		m_fbo = std::make_unique<QOpenGLFramebufferObject>(fullTextureSize.w, fullTextureSize.h, QOpenGLFramebufferObject::Depth);
+
+		if (!m_fbo->isValid())
+		{
+			return false;
+		}
+
+		// Correct the texture sizes.
+		// Do not draw more than needed or more than allowed due to hardware limitations.
+		//
+		ovr::Sizei const actualFullTextureSize(m_fbo->size().width(), m_fbo->size().height());
+		ovr::Sizei const actualLeftEyeTextureSize = ovr::Sizei::Min(ovr::Sizei(actualFullTextureSize.w / 2, actualFullTextureSize.h), recommendedLeftEyeTextureSize);
+		ovr::Sizei const actualRightEyeTextureSize = ovr::Sizei::Min(ovr::Sizei(actualFullTextureSize.w / 2, actualFullTextureSize.h), recommendedRightEyeTextureSize);
+
+
+		//
+		// Enable the texture sharing by setting the eyes' viewports accordingly.
+		//
+
+		// The eye viewports split the full texture size into two parts:
+		// one for the left eye and
+		// the other one for the right eye.
+		//
+		EyeViewPorts eyeViewPorts;
+		eyeViewPorts[ovrEye_Left] = ovr::Recti(ovr::Vector2i(0), actualLeftEyeTextureSize);
+		eyeViewPorts[ovrEye_Right] = ovr::Recti(ovr::Vector2i((actualFullTextureSize.w + 1) / 2, 0), actualRightEyeTextureSize);
+
+
+		//
+		// By the way, also initialize OVR eye textures.
+		//
+
+		auto initEyeTexture = [&](ovrEyeType eye) // create an eye texture initialization lambda
+		{
+			auto & textureHeader = m_eyeTextures[eye].OGL.Header;
+
+			textureHeader.API = ovrRenderAPI_OpenGL;
+			textureHeader.RenderViewport = eyeViewPorts[eye];
+			textureHeader.TextureSize = actualFullTextureSize;
+
+			m_eyeTextures[eye].OGL.TexId = m_fbo->texture();
+		};
+		rift_utils::foreach_eye(initEyeTexture); // run the lambda for each eye
+
+		return true;
 	}
 
 	HWND RiftApp::getWindowHandle()

@@ -26,6 +26,7 @@
 #include <QGuiApplication>
 #include <QHostAddress>
 #include <QImage>
+#include <qmath.h>
 #include <QOpenGLBuffer>
 #include <QOpenGLContext>
 #include <QOpenGLFramebufferObject>
