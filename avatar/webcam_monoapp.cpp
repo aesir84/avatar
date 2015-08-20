@@ -11,7 +11,7 @@ namespace avatar
 {
 
 	WebcamMonoApp::WebcamMonoApp()
-	{}
+	{ }
 
 	void WebcamMonoApp::initializeApp()
 	{

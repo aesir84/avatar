@@ -9,11 +9,6 @@ namespace avatar
 
 	std::unique_ptr<ImageSystem> ImageSystem::create(std::unique_ptr<ImageSystemModule> && imageReader, std::unique_ptr<ImageSystemModule> && imageProcessor, std::unique_ptr<ImageSystemModule> && imageWriter)
 	{
-		Q_ASSERT(
-			imageReader->getOperationType() == ImageSystemModule::ModuleOperation::ImageReading &&
-			imageProcessor->getOperationType() == ImageSystemModule::ModuleOperation::ImageProcessing &&
-			imageWriter->getOperationType() == ImageSystemModule::ModuleOperation::ImageWriting);
-
 		return std::unique_ptr<ImageSystem>(new ImageSystem(std::move(imageReader), std::move(imageProcessor), std::move(imageWriter)));
 	}
 
@@ -28,6 +23,7 @@ namespace avatar
 		if (m_imageWriter != nullptr)
 		{
 			Q_ASSERT(m_imageProcessor != nullptr);
+
 
 			//
 			// Setup the image writer in its dedicated thread.
@@ -80,6 +76,7 @@ namespace avatar
 		if (m_imageProcessor != nullptr)
 		{
 			Q_ASSERT(m_imageReader != nullptr);
+
 
 			//
 			// Setup the image processor in its dedicated thread.

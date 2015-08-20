@@ -18,7 +18,7 @@ namespace avatar
 
 	protected:
 
-		virtual void initializeApp() override;
+		virtual void initializeApp() override final;
 
 	private:
 

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "app_environment.h"
+#include "arduino_app.h"
 #include "cmdline_options.h"
 #include "cmdline_parser.h"
 #include "colorcube_app.h"
@@ -69,6 +70,13 @@ int main(int argc, char ** argv)
 			{
 				std::wcout << L"Info >> description: launching server demo" << std::endl;
 				app.reset(new avatar::VideoStreamServerApp);
+			}
+			break;
+
+			case avatar::cmdline_utils::Parser::Status::LaunchArduinoDemo:
+			{
+				std::wcout << L"Info >> description: launching arduino demo" << std::endl;
+				app.reset(new avatar::ArduinoApp);
 			}
 			break;
 

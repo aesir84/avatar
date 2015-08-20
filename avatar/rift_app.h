@@ -38,6 +38,10 @@ namespace avatar
 
 		virtual void uninitializeApp() override;
 
+	signals:
+
+		void orientationChanged(float yaw, float pitch, float roll);
+
 	protected:
 
 		/// \brief Overriden initializeApp() method from OpenGlApp class

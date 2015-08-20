@@ -4,6 +4,7 @@
 //
 // Disable silly warnings
 //
+
 #pragma warning(disable : 4127) // conditional expression is constant
 
 
@@ -20,13 +21,13 @@
 #include <QCommandLineParser>
 #include <QDataStream>
 #include <QDebug>
-#include <QGlobal.h>
+#include <qglobal.h> // there is no QGlobal file in Qt 5.4.1 installation directory
 #include <QEvent>
 #include <QExposeEvent>
 #include <QGuiApplication>
 #include <QHostAddress>
 #include <QImage>
-#include <qmath.h>
+#include <qmath.h> // there is no QMath file in Qt 5.4.1 installation directory
 #include <QOpenGLBuffer>
 #include <QOpenGLContext>
 #include <QOpenGLFramebufferObject>
@@ -35,6 +36,8 @@
 #include <QOpenGLTexture>
 #include <QOpenGLVertexArrayObject>
 #include <QScreen>
+#include <QSerialPort>
+#include <QSerialPortInfo>
 #include <QThread>
 #include <QTimer>
 #include <QTransform>

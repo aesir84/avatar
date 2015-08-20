@@ -5,6 +5,8 @@
 namespace avatar
 {
 
+	/// TODO : refactor this, I don't like how it looks.
+
 	class Exception
 	{
 

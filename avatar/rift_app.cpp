@@ -151,7 +151,23 @@ namespace avatar
 		//
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-		ovrHmd_GetEyePoses(m_hmdDescriptor, 0, getEyeViewOffsets().data(), m_eyePoses.data(), nullptr);
+		ovrTrackingState trackingState;
+		ovrHmd_GetEyePoses(m_hmdDescriptor, 0, getEyeViewOffsets().data(), m_eyePoses.data(), &trackingState);
+
+		// Provided the tracking is enabled, output some information about it.
+		//
+		if ((trackingState.StatusFlags & ovrStatus_OrientationTracked) != 0)
+		{
+			float yaw = 0.0f;
+			float pitch = 0.0f;
+			float roll = 0.0f;
+
+			ovr::Posef const & headPose = trackingState.HeadPose.ThePose;
+			headPose.Rotation.GetEulerAngles<ovr::Axis_Y, ovr::Axis_X, ovr::Axis_Z>(&yaw, &pitch, &roll);
+
+			Q_EMIT orientationChanged(yaw, pitch, roll);
+		}
+
 		EyeViewPorts const eyeViewPorts = getEyeViewPorts();
 
 		// Create a lambda to render an eye.

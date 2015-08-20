@@ -42,6 +42,7 @@ namespace avatar
 
 		m_dataBytesToWrite.clear();
 
+
 		//
 		// Reserve enough vector capacity to avoid reallocations.
 		//

@@ -10,7 +10,7 @@ namespace avatar
 	/// Failure to follow this pattern may lead to undefined behavior, such as deadlocks.
 	/// In order to fully initialize an object of this class, one needs to connect
 	/// QThread::started() signal to NetworkDataSender::connect() slot.
-	/// The class uses a mutex to establish exclusive access to sending features.
+	/// The class uses a mutex to establish an exclusive access to sending features.
 	/// This exclusive access lasts from execution of NetworkDataSender::sendData() slot
 	/// till emission of NetworkDataSender::dataSent() signal.
 	///
