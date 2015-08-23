@@ -13,7 +13,8 @@ namespace avatar
 
 	ArduinoApp::ArduinoApp()
 		: m_stdOutput(stdout)
-		, m_previousServoAngle(0)
+		, m_previousServoYaw(0)
+		, m_previousServoPitch(0)
 		, m_serialDataSender(nullptr)
 	{ }
 
@@ -116,44 +117,72 @@ namespace avatar
 
 	void ArduinoApp::rotateCamera(float yaw, float pitch, float roll)
 	{
-		// The motor can be given three degrees of freedom,
-		// although currently only one DoF is utilized.
+		// Currently the motor installation only supports yaw and pitch rotation.
 		//
-		Q_UNUSED(pitch);
 		Q_UNUSED(roll);
 
-
-		//
 		// Preventing too much spam sent to the sender.
 		//
-
-		if (m_serialDataSender->isBusy())
+		if (m_serialDataSender->isBusy()) // method isBusy() supports direct interthread invokation
 		{
 			return;
 		}
 
 
 		//
-		// Convert the received values to the ones that suit arduino servo motor.
+		// Communicate servo angles, derived from the received euler angles, to the Arduino.
 		//
 
-		float angle = qRadiansToDegrees(yaw);
+		int const servoYaw = getServoAngle(yaw);
+		int const servoPitch = getServoAngle(pitch);
 
-		// Servo may go 'crazy' if it is given edge values.
-		// Especially it concerns one side of the range,
-		// where its current will be at maximum. Such situations should be avoided.
-		// Therefore, it is best to put some safety margins on the edges.
+		// Omit the communication if both angles are exactly the same as their previous variants.
 		//
-		bool const validAngle = angle < 85.0f && angle > -80.0f;
-
-		if (!validAngle)
+		if (servoYaw == m_previousServoYaw && servoPitch == m_previousServoPitch)
 		{
 			return;
+		}
+
+		QString const servoTextCmd = createServoTextCommand(yaw, pitch);
+		QByteArray dataToSend(servoTextCmd.toUtf8());
+
+		Q_EMIT serialDataReady(dataToSend);
+
+		// Save the most recent angles,
+		// so that later, if these angles don't change,
+		// it is possible to omit unnecessary communication.
+		//
+		m_previousServoYaw = servoYaw;
+		m_previousServoPitch = servoPitch;
+	}
+
+	void ArduinoApp::raiseException(QString const & exceptionDescription)
+	{
+		throw Exception("Arduino error", exceptionDescription);
+	}
+
+	void ArduinoApp::reportProblem(QString const & problemDescription)
+	{
+		m_stdOutput << problemDescription << endl;
+	}
+
+	int ArduinoApp::getServoAngle(float eulerAngle) const
+	{
+		float eulerAngleInDegrees = qRadiansToDegrees(eulerAngle);
+
+		float const maxEulerAngle = 75.0f;
+		float const minEulerAngle = -75.0f;
+
+		if (eulerAngleInDegrees > maxEulerAngle)
+		{
+			eulerAngleInDegrees = maxEulerAngle;
+		}
+		else if (eulerAngleInDegrees < minEulerAngle)
+		{
+			eulerAngleInDegrees = minEulerAngle;
 		}
 
 		// Difference between Oculus and Servo angle representation.
-		// Here the angles in both cases are in degrees,
-		// although the values initially coming from Oculus are in radians.
 		//
 		//  Oculus:
 		//
@@ -165,46 +194,34 @@ namespace avatar
 		//              0         90         180
 		//              |----------|----------|
 		//
-		if (angle < 0.0f)
+		int servoAngle = 0;
+
+		if (eulerAngleInDegrees < 0.0f)
 		{
-			angle = qAbs(angle) + 90.0f;
+			servoAngle = static_cast<int>(qAbs(eulerAngleInDegrees) + 90.0f);
 		}
 		else
 		{
-			angle = 90.0f - angle;
+			servoAngle = static_cast<int>(90.0f - eulerAngleInDegrees);
 		}
 
-
-		//
-		// Construct a text command to send over a serial communication link.
-		//
-
-		// Arduino servo library implementation does not support float type values.
-		// So there is no point in sending them over a wire in such a way.
-		//
-		qint16 const servoAngle = static_cast<qint16>(angle);
-
-		if (servoAngle == m_previousServoAngle)
-		{
-			return;
-		}
-
-		QString const servoCommand = QString("rotate ") + QString::number(servoAngle);
-		QByteArray dataToSend(servoCommand.toUtf8());
-
-		m_stdOutput << "Rotating to " << servoAngle << " degrees" << endl;
-
-		Q_EMIT serialDataReady(dataToSend);
+		return servoAngle;
 	}
 
-	void ArduinoApp::raiseException(QString const & exceptionDescription)
+	QString ArduinoApp::createServoTextCommand(int servoYaw, int servoPitch) const
 	{
-		throw Exception("Arduino error", exceptionDescription);
-	}
+		int const digitsCount = 3;
+		int digitsRadix = 10;
+		QChar const digitsPadding('0');
 
-	void ArduinoApp::reportProblem(QString const & problemDescription)
-	{
-		m_stdOutput << problemDescription << endl;
+		return
+			QString("Y") // 'Y' for yaw
+			+
+			QString("%1").arg(servoYaw, digitsCount, digitsRadix, digitsPadding) // yaw value
+			+
+			QString('P') // 'P' for pitch
+			+
+			QString("%1").arg(servoPitch, digitsCount, digitsRadix, digitsPadding); // pitch value
 	}
 
 }

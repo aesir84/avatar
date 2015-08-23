@@ -39,8 +39,15 @@ namespace avatar
 
 	private:
 
+		int getServoAngle(float eulerAngle) const;
+		QString createServoTextCommand(int servoYaw, int servoPitch) const;
+
+	private:
+
 		QTextStream m_stdOutput;
-		qint16 m_previousServoAngle;
+
+		int m_previousServoYaw;
+		int m_previousServoPitch;
 
 		/// \brief A link to serial data sender
 		///
