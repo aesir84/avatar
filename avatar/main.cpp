@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "app_environment.h"
-#include "arduino_app.h"
+#include "firstpersonview_app.h"
 #include "cmdline_options.h"
 #include "cmdline_parser.h"
 #include "colorcube_app.h"
@@ -73,10 +73,10 @@ int main(int argc, char ** argv)
 			}
 			break;
 
-			case avatar::cmdline_utils::Parser::Status::LaunchArduinoDemo:
+			case avatar::cmdline_utils::Parser::Status::LaunchFirstPersonViewDemo:
 			{
-				std::wcout << L"Info >> description: launching arduino demo" << std::endl;
-				app.reset(new avatar::ArduinoApp);
+				std::wcout << L"Info >> description: launching FPV demo" << std::endl;
+				app.reset(new avatar::FirstPersonViewApp);
 			}
 			break;
 

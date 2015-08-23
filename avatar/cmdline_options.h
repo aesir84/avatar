@@ -31,9 +31,9 @@ namespace avatar
 		{ "r", "server" },
 		"Launch the stereo server demo. The server shall receive a video stream from a remote client.");
 
-		QCommandLineOption const launchArduinoDemo(
-		{ "a", "arduino" },
-		"Launch the arduino servo demo. The arduino must be already attacjed to the system.");
+		QCommandLineOption const launchFirstPersonViewDemo(
+		{ "f", "firstpersonview" },
+		"Launch the first person view demo. All the required components must be already attached to the system");
 
 	}
 

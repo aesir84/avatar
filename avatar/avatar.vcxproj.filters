@@ -304,15 +304,6 @@
     <ClCompile Include="imagesystem_module.cpp">
       <Filter>Source Files\image_utils</Filter>
     </ClCompile>
-    <ClCompile Include="arduino_app.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_arduino_app.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_arduino_app.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_serial_datasender.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -321,6 +312,15 @@
     </ClCompile>
     <ClCompile Include="serial_datasender.cpp">
       <Filter>Source Files\serial_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_firstpersonview_app.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_firstpersonview_app.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="firstpersonview_app.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -422,11 +422,11 @@
     <CustomBuild Include="imagesystem_module.h">
       <Filter>Header Files\image_utils</Filter>
     </CustomBuild>
-    <CustomBuild Include="arduino_app.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="serial_datasender.h">
       <Filter>Header Files\serial_utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="firstpersonview_app.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

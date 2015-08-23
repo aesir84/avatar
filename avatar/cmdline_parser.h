@@ -19,7 +19,7 @@ namespace avatar
 				LaunchStereoWebcamDemo,
 				LaunchClientDemo,
 				LaunchServerDemo,
-				LaunchArduinoDemo,
+				LaunchFirstPersonViewDemo,
 				ShowHelp,
 				Error,
 			};

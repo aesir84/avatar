@@ -20,7 +20,7 @@ namespace avatar
 			addOption(launchStereoWebcamDemo);
 			addOption(launchClientDemo);
 			addOption(launchServerDemo);
-			addOption(launchArduinoDemo);
+			addOption(launchFirstPersonViewDemo);
 		}
 
 		Parser::Result Parser::parseOptions()
@@ -78,9 +78,9 @@ namespace avatar
 				return std::make_pair(Status::LaunchServerDemo, QString());
 			}
 
-			if (isSet(launchArduinoDemo))
+			if (isSet(launchFirstPersonViewDemo))
 			{
-				return std::make_pair(Status::LaunchArduinoDemo, QString());
+				return std::make_pair(Status::LaunchFirstPersonViewDemo, QString());
 			}
 
 			return std::make_pair(Status::Error, "Command line error >> description: unknown option");

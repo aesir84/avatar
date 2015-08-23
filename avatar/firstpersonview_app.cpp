@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "arduino_app.h"
+#include "firstpersonview_app.h"
 
 #include "exception.h"
 #include "image_system.h"
@@ -11,18 +11,18 @@
 namespace avatar
 {
 
-	ArduinoApp::ArduinoApp()
+	FirstPersonViewApp::FirstPersonViewApp()
 		: m_stdOutput(stdout)
 		, m_previousServoYaw(0)
 		, m_previousServoPitch(0)
 		, m_serialDataSender(nullptr)
 	{ }
 
-	void ArduinoApp::initializeApp()
+	void FirstPersonViewApp::initializeApp()
 	{
 		VideoStreamMonoApp::initializeApp();
 
-		QObject::connect(this, &ArduinoApp::orientationChanged, this, &ArduinoApp::rotateCamera);
+		QObject::connect(this, &FirstPersonViewApp::orientationChanged, this, &FirstPersonViewApp::rotateCamera);
 
 
 		//
@@ -67,16 +67,16 @@ namespace avatar
 
 		// Interconnect the sender's input working chain.
 		//
-		QObject::connect(this, &ArduinoApp::serialDataReady, serialDataSender.get(), &SerialDataSender::sendData); // once there is new data to send, do it
+		QObject::connect(this, &FirstPersonViewApp::serialDataReady, serialDataSender.get(), &SerialDataSender::sendData); // once there is new data to send, do it
 
 		// Interconnect the sender's error signals.
 		//
-		QObject::connect(serialDataSender.get(), &SerialDataSender::initializationFailed, this, &ArduinoApp::raiseException);
-		QObject::connect(serialDataSender.get(), &SerialDataSender::communicationFailed, this, &ArduinoApp::reportProblem);
+		QObject::connect(serialDataSender.get(), &SerialDataSender::initializationFailed, this, &FirstPersonViewApp::raiseException);
+		QObject::connect(serialDataSender.get(), &SerialDataSender::communicationFailed, this, &FirstPersonViewApp::reportProblem);
 
 		// Interconnect the sender's destruction chain.
 		//
-		QObject::connect(this, &ArduinoApp::destroyed, serialDataSender.get(), &SerialDataSender::deleteLater); // once the current object is destroyed, it will tell the worker to be destroyed as well
+		QObject::connect(this, &FirstPersonViewApp::destroyed, serialDataSender.get(), &SerialDataSender::deleteLater); // once the current object is destroyed, it will tell the worker to be destroyed as well
 
 		// Interconnect the sender's thread destruction chain.
 		//
@@ -109,13 +109,13 @@ namespace avatar
 
 		m_imageSystem = ImageSystem::create(std::make_unique<WebcamImageReader>(cameras[0]),
 			                                std::make_unique<WebcamImageProcessor>());
-		QObject::connect(m_imageSystem.get(), &ImageSystem::imageReady, this, &ArduinoApp::setEyeImage);
-		QObject::connect(m_imageSystem.get(), &ImageSystem::errorOccured, this, &ArduinoApp::raiseVideoStreamException);
+		QObject::connect(m_imageSystem.get(), &ImageSystem::imageReady, this, &FirstPersonViewApp::setEyeImage);
+		QObject::connect(m_imageSystem.get(), &ImageSystem::errorOccured, this, &FirstPersonViewApp::raiseVideoStreamException);
 
 		m_imageSystem->run();
 	}
 
-	void ArduinoApp::rotateCamera(float yaw, float pitch, float roll)
+	void FirstPersonViewApp::rotateCamera(float yaw, float pitch, float roll)
 	{
 		// Currently the motor installation only supports yaw and pitch rotation.
 		//
@@ -156,17 +156,17 @@ namespace avatar
 		m_previousServoPitch = servoPitch;
 	}
 
-	void ArduinoApp::raiseException(QString const & exceptionDescription)
+	void FirstPersonViewApp::raiseException(QString const & exceptionDescription)
 	{
 		throw Exception("Arduino error", exceptionDescription);
 	}
 
-	void ArduinoApp::reportProblem(QString const & problemDescription)
+	void FirstPersonViewApp::reportProblem(QString const & problemDescription)
 	{
 		m_stdOutput << problemDescription << endl;
 	}
 
-	int ArduinoApp::getServoAngle(float eulerAngle) const
+	int FirstPersonViewApp::getServoAngle(float eulerAngle) const
 	{
 		float eulerAngleInDegrees = qRadiansToDegrees(eulerAngle);
 
@@ -208,7 +208,7 @@ namespace avatar
 		return servoAngle;
 	}
 
-	QString ArduinoApp::createServoTextCommand(int servoYaw, int servoPitch) const
+	QString FirstPersonViewApp::createServoTextCommand(int servoYaw, int servoPitch) const
 	{
 		int const digitsCount = 3;
 		int digitsRadix = 10;

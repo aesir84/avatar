@@ -8,14 +8,14 @@ namespace avatar
 	class ImageSystem;
 	class SerialDataSender;
 
-	class ArduinoApp : public VideoStreamMonoApp
+	class FirstPersonViewApp : public VideoStreamMonoApp
 	{
 
 		Q_OBJECT
 
 	public:
 
-		ArduinoApp();
+		FirstPersonViewApp();
 
 	protected:
 
