@@ -12,6 +12,11 @@
 #include "webcam_monoapp.h"
 #include "webcam_stereoapp.h"
 
+#include "firstpersonview_serialcli.h"
+#include "image_system.h"
+#include "webcam_imageprocessor.h"
+#include "webcam_imagereader.h"
+
 int main(int argc, char ** argv)
 {
 	int status = EXIT_FAILURE;
@@ -76,7 +81,54 @@ int main(int argc, char ** argv)
 			case avatar::cmdline_utils::Parser::Status::LaunchFirstPersonViewDemo:
 			{
 				std::wcout << L"Info >> description: launching FPV demo" << std::endl;
-				app.reset(new avatar::FirstPersonViewApp);
+
+
+				//
+				// Find arduino serial port.
+				//
+
+				QList<QSerialPortInfo> const ports = QSerialPortInfo::availablePorts();
+				QList<QSerialPortInfo>::const_iterator arduinoPort = ports.cend();
+
+				for (auto it = ports.cbegin(); it != ports.cend(); ++it)
+				{
+					QString const description = it->description();
+
+					if (description.contains("arduino", Qt::CaseInsensitive))
+					{
+						arduinoPort = it;
+						break;
+					}
+				}
+
+				if (arduinoPort == ports.cend())
+				{
+					std::wcout << L"Error >> description: failed to find arduino serial port" << std::endl;
+					return EXIT_FAILURE;
+				}
+
+
+				//
+				// Find a webcam.
+				//
+
+				auto const cameras = QCameraInfo::availableCameras();
+
+				if (cameras.empty())
+				{
+					std::wcout << L"Error >> description: failed to find webcam devices" << std::endl;
+					return EXIT_FAILURE;
+				}
+
+
+				//
+				// Setup both the interpreter for the arduino port and the camera.
+				//
+				
+				auto commandInterpreter = avatar::FirstPersonViewSerialCli::create(*arduinoPort, QSerialPort::Baud115200, QByteArray("Servo>"), 50);
+				auto imageSystem = avatar::ImageSystem::create(std::make_unique<avatar::WebcamImageReader>(cameras[0]), std::make_unique<avatar::WebcamImageProcessor>());
+
+				app.reset(new avatar::FirstPersonViewApp(std::move(commandInterpreter), std::move(imageSystem)));
 			}
 			break;
 

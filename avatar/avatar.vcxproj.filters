@@ -83,6 +83,18 @@
     <Filter Include="Source Files\serial_utils">
       <UniqueIdentifier>{e6cdab56-66a3-42cf-a6a9-f2d0b9caef06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\firstpersonview_cli">
+      <UniqueIdentifier>{e1c0ae76-6273-4472-b198-24069d44a124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\firstpersonview_cli">
+      <UniqueIdentifier>{254973e0-15a8-4de6-bd15-824a7fa3a7f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\fpv_utils">
+      <UniqueIdentifier>{bc703550-5806-4dd6-a300-690b92ae5516}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\fpv_utils">
+      <UniqueIdentifier>{81b405bf-b115-4cfd-8637-41b7c30a9d79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\Debug\moc_opengl_app.cpp">
@@ -322,6 +334,27 @@
     <ClCompile Include="firstpersonview_app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="firstpersonview_cli.cpp">
+      <Filter>Source Files\firstpersonview_cli</Filter>
+    </ClCompile>
+    <ClCompile Include="firstpersonview_serialcli.cpp">
+      <Filter>Source Files\firstpersonview_cli</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_firstpersonview_cli.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_firstpersonview_serialcli.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_firstpersonview_cli.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_firstpersonview_serialcli.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="fpv_anglecalc.cpp">
+      <Filter>Source Files\fpv_utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -353,6 +386,9 @@
     </ClInclude>
     <ClInclude Include="imagesystem_typedefs.h">
       <Filter>Header Files\image_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="fpv_anglecalc.h">
+      <Filter>Header Files\fpv_utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -427,6 +463,12 @@
     </CustomBuild>
     <CustomBuild Include="firstpersonview_app.h">
       <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="firstpersonview_cli.h">
+      <Filter>Header Files\firstpersonview_cli</Filter>
+    </CustomBuild>
+    <CustomBuild Include="firstpersonview_serialcli.h">
+      <Filter>Header Files\firstpersonview_cli</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
