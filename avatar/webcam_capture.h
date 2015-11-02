@@ -7,7 +7,7 @@ namespace avatar
 
 	/// \brief Webcam image capture
 	///
-	/// The class deals with capturing images - frames - for a webcam.
+	/// The class deals with capturing images - frames - from a webcam.
 	/// It does so by publicly subclassing an abstract class QAbstractVideoSurface.
 	/// The intention of this inheritance is more like is-implemented-in-terms-of,
 	/// though private inheritance will not work in this case, because signals and slots

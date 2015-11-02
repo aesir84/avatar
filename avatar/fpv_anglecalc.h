@@ -58,11 +58,13 @@ namespace avatar
 				//
 				//                      180        90          0
 				//                       |----------|----------|
+				//                      left                 right
 				//
 				//  X axis:
 				//
 				//                       0        90          180
 				//                       |----------|----------|
+				//                       up                  down
 				//
 
 				int fpvAxisAngle = 0;

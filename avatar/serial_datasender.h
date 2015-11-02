@@ -6,12 +6,12 @@ namespace avatar
 	/// \brief A class which represents the master in a serial communication
 	///
 	/// Due to the fact, that this class uses blocking API for serial communication,
-	/// it is crucial, objects of this class are used in a separate thread,
-	/// so that the most important parts of the public interface is invoked through a signal/slot mechanism.
+	/// it is crucial, that objects of this class are used in a separate thread,
+	/// so that the most important parts of the public interface are invoked through a signal/slot mechanism.
 	/// Running the objects in the client's thread and invoking this interface
 	/// directly using mere function calls can lead to the client's thread freezing.
 	///
-	/// In order not to overcumber the thread queue it is possible to 
+	/// In order not to over encumber the thread queue it is possible to 
 	///
 	/// Prior to using sendData() method, an object of this class must be first initialized
 	/// by invoking its initialize() method as a slot connected to QThread::started() signal.
