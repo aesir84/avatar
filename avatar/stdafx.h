@@ -55,6 +55,7 @@
 
 #include <array>
 #include <atomic>
+#include <cmath>
 #include <functional>
 #include <iostream>
 #include <memory>

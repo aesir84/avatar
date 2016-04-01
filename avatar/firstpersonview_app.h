@@ -29,6 +29,23 @@ namespace avatar
 		void raiseWarning(QString const & description);
 
 	private:
+		enum AngleType
+		{
+			Yaw,
+			Pitch,
+			Roll,
+
+			Count
+		};
+
+	private:
+		float correctAngle(float angleValue, int angleType);
+
+	private:
+		float m_previousAngles[Count];
+		static float const m_diffThreshold;
+
+	private:
 
 		QTextStream m_stdOutput;
 
