@@ -57,6 +57,7 @@
 #include <atomic>
 #include <cmath>
 #include <functional>
+#include <iomanip>
 #include <iostream>
 #include <memory>
 #include <mutex>
@@ -73,3 +74,16 @@
 
 #include <OVR_CAPI_GL.h>
 #include "Extras\OVR_Math.h"
+
+
+//
+// OVRVision
+//
+
+#include <ovrvision_pro.h>
+
+//
+// OpenCV
+//
+
+#include <opencv2\opencv.hpp>

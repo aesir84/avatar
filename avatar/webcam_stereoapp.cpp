@@ -36,14 +36,14 @@ namespace avatar
 		//
 		m_imageSystems[ovrEye_Left] = ImageSystem::create(std::make_unique<WebcamImageReader>(cameras[1]),
 			                                              std::make_unique<WebcamImageProcessor>(WebcamImageProcessor::WebcamSide::Left));
-		QObject::connect(m_imageSystems[ovrEye_Left].get(), &ImageSystem::imageReady, this, &WebcamStereoApp::setLeftEyeImage);
+		QObject::connect(m_imageSystems[ovrEye_Left].get(), &ImageSystem::imageReady, this, static_cast<void (WebcamStereoApp::*)(ImagePtr)>(&WebcamStereoApp::setLeftEyeImage));
 		QObject::connect(m_imageSystems[ovrEye_Left].get(), &ImageSystem::errorOccured, this, &WebcamStereoApp::raiseVideoStreamException);
 
 		// Setup right eye image system.
 		//
 		m_imageSystems[ovrEye_Right] = ImageSystem::create(std::make_unique<WebcamImageReader>(cameras[0]),
 			                                               std::make_unique<WebcamImageProcessor>(WebcamImageProcessor::WebcamSide::Right));
-		QObject::connect(m_imageSystems[ovrEye_Right].get(), &ImageSystem::imageReady, this, &WebcamStereoApp::setRightEyeImage);
+		QObject::connect(m_imageSystems[ovrEye_Right].get(), &ImageSystem::imageReady, this, static_cast<void (WebcamStereoApp::*)(ImagePtr)>(&WebcamStereoApp::setRightEyeImage));
 		QObject::connect(m_imageSystems[ovrEye_Right].get(), &ImageSystem::errorOccured, this, &WebcamStereoApp::raiseVideoStreamException);
 
 

@@ -1,21 +1,21 @@
 #pragma once
 
-#include "videostream_monoapp.h"
+#include "videostream_stereoapp.h"
 
 namespace avatar
 {
 
 	class FirstPersonViewCli;
-	class ImageSystem;
+	class OVRVisionImageReader;
 
-	class FirstPersonViewApp : public VideoStreamMonoApp
+	class FirstPersonViewApp : public VideoStreamStereoApp
 	{
 
 		Q_OBJECT
 
 	public:
 
-		FirstPersonViewApp(std::unique_ptr<FirstPersonViewCli> && commandInterpreter, std::unique_ptr<ImageSystem> && imageSystem);
+		FirstPersonViewApp();
 
 	protected:
 
@@ -50,7 +50,7 @@ namespace avatar
 		QTextStream m_stdOutput;
 
 		std::unique_ptr<FirstPersonViewCli> m_commandInterpreter;
-		std::unique_ptr<ImageSystem> m_imageSystem;
+		std::unique_ptr<OVRVisionImageReader> m_imageReader;
 
 	};
 

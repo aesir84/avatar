@@ -65,6 +65,16 @@ namespace avatar
 		setEyeImage(ovrEye_Right, image);
 	}
 
+	void VideoStreamStereoApp::setLeftEyeImage(MatPtr image)
+	{
+		setEyeImage(ovrEye_Left, image);
+	}
+
+	void VideoStreamStereoApp::setRightEyeImage(MatPtr image)
+	{
+		setEyeImage(ovrEye_Right, image);
+	}
+
 	void VideoStreamStereoApp::setEyeImage(ovrEyeType eye, ImagePtr image)
 	{
 
@@ -92,6 +102,40 @@ namespace avatar
 			// Update the pixels of the existing texture.
 			//
 			m_eyeTextures[eye]->setData(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, textureImage.bits());
+
+			// Update image latency statictics.
+			// In this case a certain image counter is handled - the one, that corresponds to the currently handled eye.
+			//
+			m_framesCountPerEyeImages[eye].push_back(m_framesCounters[eye]);
+			m_framesCounters[eye] = 0;
+		}
+	}
+
+	void VideoStreamStereoApp::setEyeImage(ovrEyeType eye, MatPtr image)
+	{
+		//
+		// Either create a new texture or refill the already created one.
+		//
+
+		if (m_eyeTextures[eye] == nullptr)
+		{
+			// Create a texture from the supplied image.
+			//
+			m_eyeTextures[eye] = std::make_unique<QOpenGLTexture>(QOpenGLTexture::Target2D);
+
+			m_eyeTextures[eye]->setFormat(QOpenGLTexture::RGBA8_UNorm);
+			m_eyeTextures[eye]->setSize(image->cols, image->rows);
+			m_eyeTextures[eye]->allocateStorage();
+
+			Q_ASSERT(m_eyeTextures[eye]->isStorageAllocated());
+
+			m_eyeTextures[eye]->setData(QOpenGLTexture::BGRA, QOpenGLTexture::UInt8, image->data);
+		}
+		else
+		{
+			// Update the pixels of the existing texture.
+			//
+			m_eyeTextures[eye]->setData(QOpenGLTexture::BGRA, QOpenGLTexture::UInt8, image->data);
 
 			// Update image latency statictics.
 			// In this case a certain image counter is handled - the one, that corresponds to the currently handled eye.

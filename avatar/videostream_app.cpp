@@ -71,6 +71,7 @@ namespace avatar
 		setAnimating(true);
 
 		qRegisterMetaType<ImagePtr>("ImagePtr");
+		qRegisterMetaType<MatPtr>("MatPtr");
 	}
 
 	void VideoStreamApp::startFrame()

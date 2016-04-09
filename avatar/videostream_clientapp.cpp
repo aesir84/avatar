@@ -36,7 +36,7 @@ namespace avatar
 		m_imageSystems[ovrEye_Left] = ImageSystem::create(std::make_unique<WebcamImageReader>(cameras[1]),
 			                                              std::make_unique<WebcamImageProcessor>(WebcamImageProcessor::WebcamSide::Left),
 														  NetworkImageWriter::create(m_serverAddress, getLeftEyePort()));
-		QObject::connect(m_imageSystems[ovrEye_Left].get(), &ImageSystem::imageReady, this, &VideoStreamClientApp::setLeftEyeImage);
+		QObject::connect(m_imageSystems[ovrEye_Left].get(), &ImageSystem::imageReady, this, static_cast<void (VideoStreamClientApp::*)(ImagePtr)>(&VideoStreamClientApp::setLeftEyeImage));
 		QObject::connect(m_imageSystems[ovrEye_Left].get(), &ImageSystem::errorOccured, this, &VideoStreamClientApp::raiseVideoStreamException);
 
 		// Setup right eye image system.
@@ -44,7 +44,7 @@ namespace avatar
 		m_imageSystems[ovrEye_Right] = ImageSystem::create(std::make_unique<WebcamImageReader>(cameras[0]),
 			                                               std::make_unique<WebcamImageProcessor>(WebcamImageProcessor::WebcamSide::Right),
 														   NetworkImageWriter::create(m_serverAddress, getRightEyePort()));
-		QObject::connect(m_imageSystems[ovrEye_Right].get(), &ImageSystem::imageReady, this, &VideoStreamClientApp::setRightEyeImage);
+		QObject::connect(m_imageSystems[ovrEye_Right].get(), &ImageSystem::imageReady, this, static_cast<void (VideoStreamClientApp::*)(ImagePtr)>(&VideoStreamClientApp::setRightEyeImage));
 		QObject::connect(m_imageSystems[ovrEye_Right].get(), &ImageSystem::errorOccured, this, &VideoStreamClientApp::raiseVideoStreamException);
 
 

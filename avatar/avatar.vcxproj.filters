@@ -95,6 +95,12 @@
     <Filter Include="Source Files\fpv_utils">
       <UniqueIdentifier>{81b405bf-b115-4cfd-8637-41b7c30a9d79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ovrvision_utils">
+      <UniqueIdentifier>{f084bfb5-ef33-4104-be7d-0efeb1a2caf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ovrvision_utils">
+      <UniqueIdentifier>{326326dd-8019-4f36-bc25-3c05fb3437f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\Debug\moc_opengl_app.cpp">
@@ -355,6 +361,15 @@
     <ClCompile Include="fpv_anglecalc.cpp">
       <Filter>Source Files\fpv_utils</Filter>
     </ClCompile>
+    <ClCompile Include="ovrvision_imagereader.cpp">
+      <Filter>Source Files\ovrvision_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ovrvision_imagereader.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ovrvision_imagereader.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -469,6 +484,9 @@
     </CustomBuild>
     <CustomBuild Include="firstpersonview_serialcli.h">
       <Filter>Header Files\firstpersonview_cli</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ovrvision_imagereader.h">
+      <Filter>Header Files\ovrvision_utils</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

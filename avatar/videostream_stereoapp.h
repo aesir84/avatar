@@ -29,9 +29,14 @@ namespace avatar
 		void setLeftEyeImage(ImagePtr image);
 		void setRightEyeImage(ImagePtr image);
 
+		void setLeftEyeImage(MatPtr image);
+		void setRightEyeImage(MatPtr image);
+
 	private:
 
 		void setEyeImage(ovrEyeType eye, ImagePtr image);
+
+		void setEyeImage(ovrEyeType eye, MatPtr image);
 
 	private:
 
