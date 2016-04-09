@@ -57,41 +57,34 @@ namespace avatar
 		// Setup OVRVision reader.
 		//
 
-		m_imageReader = std::make_unique<OVRVisionImageReader>();
-		auto imageReaderThread = std::make_unique<QThread>();
+		bool const visionOpened = m_vision.Open(0, OVR::OV_CAMVR_FULL) > 0;
 
-		m_imageReader->moveToThread(imageReaderThread.get());
+		if (!visionOpened)
+		{
+			throw Exception("FPV error", "failed to open OVRVision camera");
+		}
 
-		// Interconnect the reader's thread destruction chain.
-		//
-		QObject::connect(m_imageReader.get(), &OVRVisionImageReader::destroyed, imageReaderThread.get(), &QThread::quit); // once the worker is destroyed, it will tell the thread to quit [thread's loop is still running]
-		QObject::connect(imageReaderThread.get(), &QThread::finished, imageReaderThread.get(), &QThread::deleteLater); // [thread's loop is still running] when the thread finishes, it will tell its object to delete itself
+		int const imageWidth = m_vision.GetCamWidth();
+		int const imageHeight = m_vision.GetCamHeight();
 
-		// Interconnect the reader work startup.
-		//
-		QObject::connect(imageReaderThread.get(), &QThread::started, m_imageReader.get(), &OVRVisionImageReader::read); // once the thread starts, it will trigger the work of the reader
+		m_leftImage = std::make_shared<cv::Mat>(imageHeight, imageWidth, CV_8UC4);
+		m_rightImage = std::make_shared<cv::Mat>(imageHeight, imageWidth, CV_8UC4);
+	}
 
-		// Interconnect the output of the reader.
-		//
-		QObject::connect(m_imageReader.get(), &OVRVisionImageReader::leftImageCaptured, this, static_cast<void (FirstPersonViewApp::*)(MatPtr)>(&FirstPersonViewApp::setLeftEyeImage));
-		QObject::connect(m_imageReader.get(), &OVRVisionImageReader::rightImageCaptured, this, static_cast<void (FirstPersonViewApp::*)(MatPtr)>(&FirstPersonViewApp::setRightEyeImage));
+	void FirstPersonViewApp::startFrame()
+	{
+		VideoStreamStereoApp::startFrame();
 
-		// Interconnect the reader destruction chain.
-		//
-		QObject::connect(this, &FirstPersonViewApp::destroyed, m_imageReader.get(), &OVRVisionImageReader::deleteLater);
+		m_vision.PreStoreCamData(OVR::OV_CAMQT_DMS);
 
+		m_vision.GetCamImageBGRA(m_leftImage->data, OVR::OV_CAMEYE_LEFT);
+		m_vision.GetCamImageBGRA(m_rightImage->data, OVR::OV_CAMEYE_RIGHT);
 
-		// Start reading.
-		//
-		imageReaderThread->start();
+		cv::flip(m_leftImage->clone(), *m_leftImage, 0);
+		cv::flip(m_rightImage->clone(), *m_rightImage, 0);
 
-		// Release the smartpointer's ownership of the reader's thread.
-		//
-		imageReaderThread.release();
-
-		// Release the smartpointer's ownership of the reader.
-		//
-		m_imageReader.release();
+		setLeftEyeImage(m_leftImage);
+		setRightEyeImage(m_rightImage);
 	}
 
 	void FirstPersonViewApp::rotateFpv(float yaw, float pitch, float roll)

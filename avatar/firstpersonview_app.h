@@ -6,7 +6,6 @@ namespace avatar
 {
 
 	class FirstPersonViewCli;
-	class OVRVisionImageReader;
 
 	class FirstPersonViewApp : public VideoStreamStereoApp
 	{
@@ -20,6 +19,7 @@ namespace avatar
 	protected:
 
 		virtual void initializeApp() override final;
+		virtual void startFrame() override;
 
 	private:
 
@@ -50,8 +50,10 @@ namespace avatar
 		QTextStream m_stdOutput;
 
 		std::unique_ptr<FirstPersonViewCli> m_commandInterpreter;
-		std::unique_ptr<OVRVisionImageReader> m_imageReader;
+		OVR::OvrvisionPro m_vision;
 
+		MatPtr m_leftImage;
+		MatPtr m_rightImage;
 	};
 
 }
